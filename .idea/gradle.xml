@@ -13,6 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Flashcards/task" />
+            <option value="$PROJECT_DIR$/Problems/N-th symbol" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
