@@ -6,17 +6,38 @@ fun main() {
     val input = Scanner(System.`in`)
     println("Input the number of cards:")
     val numberOfCards = input.nextLine().toInt()
-    class Cards(val term:String, val definition: String)
-    val cards = arrayListOf<Cards>()
+    val cards = mutableMapOf<String, String>()
     for (i in 1..numberOfCards) {
         println("Card #$i:")
-        val term = input.nextLine()
+        var term:String
+        var check1 = false
+        do {
+            term = input.nextLine()
+            if (cards.containsKey(term)) {
+                println("The card \"$term\" already exists. Try again:")
+            } else { check1 = true }
+        } while (!check1)
         println("The definition for card #$i:")
-        val definition = input.nextLine()
-        cards.add(Cards(term,definition))
+        var definition: String
+        var check2 = false
+        do {
+            definition = input.nextLine()
+            if (cards.containsValue(definition)) {
+                println("The definition \"$definition\" already exists. Try again:")
+            } else { check2 = true }
+        } while (!check2)
+        cards[term] = definition
     }
-    for (card in cards) {
-        println("Print the definition of \"${card.term}\":")
-        println(if (input.nextLine() == card.definition) "Correct" else "Wrong. The right answer is \"${card.definition}\"")
+    for ((term, definition) in cards) {
+        println("Print the definition of \"$term\":")
+        val answer = input.nextLine()
+        if (answer == definition) {
+            println("Correct!")
+        } else if (cards.containsValue(answer)) {
+            val otherCard = cards.filter { it.value == answer }.keys.first()
+            println("Wrong. The right answer is \"$definition\", but your definition is correct for \"$otherCard\"")
+        } else {
+            println("Wrong. The right answer is \"$definition\"")
+        }
     }
 }
