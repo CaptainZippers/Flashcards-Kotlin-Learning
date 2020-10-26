@@ -1,2 +1,8 @@
 content:
 - N-th symbol
+- Incorrect comments
+- Cause an exception
+- Handle string exception
+- Complex numbers
+- Handle arithmetic exception
+- Handle number format exception
