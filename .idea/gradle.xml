@@ -8,7 +8,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="java version &quot;11.0.8+10&quot;" />
+        <option name="gradleJvm" value="#JAVA_INTERNAL" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -16,12 +16,14 @@
             <option value="$PROJECT_DIR$/Problems/Cause an exception" />
             <option value="$PROJECT_DIR$/Problems/Cell" />
             <option value="$PROJECT_DIR$/Problems/Complex numbers" />
+            <option value="$PROJECT_DIR$/Problems/Empty" />
             <option value="$PROJECT_DIR$/Problems/Exception message" />
             <option value="$PROJECT_DIR$/Problems/Fractional part" />
             <option value="$PROJECT_DIR$/Problems/Handle arithmetic exception" />
             <option value="$PROJECT_DIR$/Problems/Handle number format exception" />
             <option value="$PROJECT_DIR$/Problems/Handle string exception" />
             <option value="$PROJECT_DIR$/Problems/Handling strings" />
+            <option value="$PROJECT_DIR$/Problems/Help the Lord Commander" />
             <option value="$PROJECT_DIR$/Problems/Incorrect comments" />
             <option value="$PROJECT_DIR$/Problems/Integer division" />
             <option value="$PROJECT_DIR$/Problems/Letters" />
@@ -29,9 +31,11 @@
             <option value="$PROJECT_DIR$/Problems/Max of four numbers" />
             <option value="$PROJECT_DIR$/Problems/Most common" />
             <option value="$PROJECT_DIR$/Problems/N-th symbol" />
+            <option value="$PROJECT_DIR$/Problems/Quadratic equation" />
             <option value="$PROJECT_DIR$/Problems/Reversed output" />
             <option value="$PROJECT_DIR$/Problems/Rickrolling" />
             <option value="$PROJECT_DIR$/Problems/Sine and cosine" />
+            <option value="$PROJECT_DIR$/Problems/Yet another array" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
