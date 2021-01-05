@@ -31,13 +31,13 @@ fun main() {
     for ((term, definition) in cards) {
         println("Print the definition of \"$term\":")
         val answer = input.nextLine()
-        if (answer == definition) {
-            println("Correct!")
-        } else if (cards.containsValue(answer)) {
-            val otherCard = cards.filter { it.value == answer }.keys.first()
-            println("Wrong. The right answer is \"$definition\", but your definition is correct for \"$otherCard\"")
-        } else {
-            println("Wrong. The right answer is \"$definition\"")
+        when {
+            answer == definition -> println("Correct!")
+            cards.containsValue(answer) -> {
+                val otherCard = cards.filter { it.value == answer }.keys.first()
+                println("Wrong. The right answer is \"$definition\", but your definition is correct for \"$otherCard\"")
+            }
+            else -> println("Wrong. The right answer is \"$definition\"")
         }
     }
 }

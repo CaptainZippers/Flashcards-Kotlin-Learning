@@ -86,8 +86,7 @@ class DialogClue(private val phrases: List<PhraseLine>) {
         val lines = output.lines()
                 .filter { it.isNotBlank() }
 
-        fun wrongOutputSizeFeedback(): CheckResult
-                = CheckResult.wrong("The number of lines in your output is ${lines.size}, " +
+        fun wrongOutputSizeFeedback() = CheckResult.wrong("The number of lines in your output is ${lines.size}, " +
                 "but it should be ${outputPhrases.size}. " +
                 "Check, that you output your lines with println, not print. And there are no extra outputs.")
 
@@ -102,7 +101,9 @@ class DialogClue(private val phrases: List<PhraseLine>) {
                     if (!lineIter.hasNext()) {
                         return wrongOutputSizeFeedback()
                     }
-                    val result = phraseLine.checker(lineIter.next(), context)
+
+                    val line: String = lineIter.next()
+                    val result = phraseLine.checker(line, context)
                     if (!result.isCorrect) {
                         return CheckResult.wrong(result.feedback)
                     }
@@ -114,7 +115,7 @@ class DialogClue(private val phrases: List<PhraseLine>) {
             return wrongOutputSizeFeedback()
         }
 
-        return CheckResult.correct()
+        return CheckResult.correct();
     }
 }
 

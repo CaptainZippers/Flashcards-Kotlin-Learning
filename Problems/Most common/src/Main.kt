@@ -1,5 +1,5 @@
 fun main() {
-    val words = mutableMapOf<String ,Int>()
+    val words = mutableMapOf<String, Int>()
     do {
         val word = readLine()!!
         if (word == "stop") {
@@ -12,11 +12,11 @@ fun main() {
     } while (word != "stop")
     var mostCommonWord = "null"
     var mostCommonTimes = 0
-    for ((key,value) in words) {
-       if (value > mostCommonTimes ) {
-           mostCommonWord = key
-           mostCommonTimes = value
-       }
+    for ((key, value) in words) {
+        if (value > mostCommonTimes) {
+            mostCommonWord = key
+            mostCommonTimes = value
+        }
     }
     print(mostCommonWord)
 }

@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/Problems/Cell" />
             <option value="$PROJECT_DIR$/Problems/Complex numbers" />
             <option value="$PROJECT_DIR$/Problems/Exception message" />
+            <option value="$PROJECT_DIR$/Problems/Fractional part" />
             <option value="$PROJECT_DIR$/Problems/Handle arithmetic exception" />
             <option value="$PROJECT_DIR$/Problems/Handle number format exception" />
             <option value="$PROJECT_DIR$/Problems/Handle string exception" />
@@ -25,10 +26,12 @@
             <option value="$PROJECT_DIR$/Problems/Integer division" />
             <option value="$PROJECT_DIR$/Problems/Letters" />
             <option value="$PROJECT_DIR$/Problems/Manager" />
+            <option value="$PROJECT_DIR$/Problems/Max of four numbers" />
             <option value="$PROJECT_DIR$/Problems/Most common" />
             <option value="$PROJECT_DIR$/Problems/N-th symbol" />
             <option value="$PROJECT_DIR$/Problems/Reversed output" />
             <option value="$PROJECT_DIR$/Problems/Rickrolling" />
+            <option value="$PROJECT_DIR$/Problems/Sine and cosine" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
