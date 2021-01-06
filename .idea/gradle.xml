@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/Problems/Fix the program" />
             <option value="$PROJECT_DIR$/Problems/Fractional part" />
             <option value="$PROJECT_DIR$/Problems/Function composition" />
+            <option value="$PROJECT_DIR$/Problems/Function composition (1)" />
             <option value="$PROJECT_DIR$/Problems/Handle arithmetic exception" />
             <option value="$PROJECT_DIR$/Problems/Handle number format exception" />
             <option value="$PROJECT_DIR$/Problems/Handle string exception" />
@@ -33,10 +34,12 @@
             <option value="$PROJECT_DIR$/Problems/Kings of Sweden" />
             <option value="$PROJECT_DIR$/Problems/Letters" />
             <option value="$PROJECT_DIR$/Problems/Manager" />
+            <option value="$PROJECT_DIR$/Problems/Max" />
             <option value="$PROJECT_DIR$/Problems/Max of four numbers" />
             <option value="$PROJECT_DIR$/Problems/Most common" />
             <option value="$PROJECT_DIR$/Problems/N-th symbol" />
             <option value="$PROJECT_DIR$/Problems/Not  predicate" />
+            <option value="$PROJECT_DIR$/Problems/Polynomial" />
             <option value="$PROJECT_DIR$/Problems/Quadratic equation" />
             <option value="$PROJECT_DIR$/Problems/Reversed output" />
             <option value="$PROJECT_DIR$/Problems/Rickrolling" />
