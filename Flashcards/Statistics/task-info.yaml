@@ -13,43 +13,43 @@ files:
 - name: test/FlashcardsTest.java
   visible: false
   text: "import flashcards.MainKt;\nimport org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;\n\
-    import org.hyperskill.hstest.stage.StageTest;\nimport org.hyperskill.hstest.testcase.CheckResult;\n\
-    import org.hyperskill.hstest.testcase.TestCase;\nimport org.hyperskill.hstest.testing.TestedProgram;\n\
-    import org.junit.AfterClass;\nimport org.junit.BeforeClass;\n\nimport java.io.BufferedReader;\n\
-    import java.io.File;\nimport java.io.FileReader;\nimport java.io.IOException;\n\
-    import java.util.Arrays;\nimport java.util.List;\n\npublic class FlashcardsTest\
-    \ extends StageTest<String> {\n    \n    private static List<String> listOfTerms;\n\
-    \    private static List<String> listOfDefinitions;\n    private static List<String>\
-    \ listOfAddedDefinitions;\n    private static List<String> listOfCountries;\n\
-    \    private static List<String> listOfCapitals;\n    private final String capitalsFile\
-    \ = \"capitals.txt\";\n    private final String capitalsNewFile = \"capitalsNew.txt\"\
-    ;\n    \n    @BeforeClass\n    public static void generateLists(){\n        listOfTerms\
-    \ = getListOfTerms();\n        listOfDefinitions = getListOfDefinitions();\n \
-    \       listOfAddedDefinitions = getListOfWrongDefinitions1();\n        listOfCountries\
-    \ = getListOfCountries();\n        listOfCapitals = getListOfCapitals();\n   \
-    \ }\n    \n    @AfterClass\n    public static void deleteFiles() {\n        File\
-    \ capitalsFile = new File(\"capitals.txt\");\n        //noinspection ResultOfMethodCallIgnored\n\
-    \        capitalsFile.delete();\n        \n        File capitalsNewFile = new\
-    \ File(\"capitalsNew.txt\");\n        //noinspection ResultOfMethodCallIgnored\n\
-    \        capitalsNewFile.delete();\n        \n        File logFile = new File(\"\
-    todayLog.txt\");\n        //noinspection ResultOfMethodCallIgnored\n        logFile.delete();\n\
-    \        \n    }\n    \n    @DynamicTestingMethod\n    CheckResult test1() {\n\
-    \        TestedProgram main = new TestedProgram(MainKt.class);\n        \n   \
-    \     String output = main.start().toLowerCase().trim();\n        if (!output.contains(\"\
-    input the action\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ prompt the user for an action with the message \\\"Input the \" +\n        \
-    \            \"action\\\"\");\n        }\n        \n        output = main.execute(\"\
-    exit\").toLowerCase();\n        if (!output.contains(\"bye\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
-    \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
-    \        \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
-    Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
-    \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
-    \ the \"add\" action\n    @DynamicTestingMethod\n    CheckResult test2() {\n \
-    \       TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        \n        output = main.execute(\"add\").toLowerCase();\n  \
-    \      if (!output.contains(\"card\")) {\n            return CheckResult.wrong(\"\
+    import org.hyperskill.hstest.exception.outcomes.WrongAnswer;\nimport org.hyperskill.hstest.stage.StageTest;\n\
+    import org.hyperskill.hstest.testcase.CheckResult;\nimport org.hyperskill.hstest.testcase.TestCase;\n\
+    import org.hyperskill.hstest.testing.TestedProgram;\nimport org.junit.AfterClass;\n\
+    import org.junit.BeforeClass;\n\nimport java.io.BufferedReader;\nimport java.io.File;\n\
+    import java.io.FileReader;\nimport java.io.IOException;\nimport java.util.Arrays;\n\
+    import java.util.List;\n\npublic class FlashcardsTest extends StageTest<String>\
+    \ {\n    \n    private static List<String> listOfTerms;\n    private static List<String>\
+    \ listOfDefinitions;\n    private static List<String> listOfAddedDefinitions;\n\
+    \    private static List<String> listOfCountries;\n    private static List<String>\
+    \ listOfCapitals;\n    private final String capitalsFile = \"capitals.txt\";\n\
+    \    private final String capitalsNewFile = \"capitalsNew.txt\";\n    \n    @BeforeClass\n\
+    \    public static void generateLists(){\n        listOfTerms = getListOfTerms();\n\
+    \        listOfDefinitions = getListOfDefinitions();\n        listOfAddedDefinitions\
+    \ = getListOfWrongDefinitions1();\n        listOfCountries = getListOfCountries();\n\
+    \        listOfCapitals = getListOfCapitals();\n    }\n    \n    @AfterClass\n\
+    \    public static void deleteFiles() {\n        File capitalsFile = new File(\"\
+    capitals.txt\");\n        //noinspection ResultOfMethodCallIgnored\n        capitalsFile.delete();\n\
+    \        \n        File capitalsNewFile = new File(\"capitalsNew.txt\");\n   \
+    \     //noinspection ResultOfMethodCallIgnored\n        capitalsNewFile.delete();\n\
+    \        \n        File logFile = new File(\"todayLog.txt\");\n        //noinspection\
+    \ ResultOfMethodCallIgnored\n        logFile.delete();\n        \n    }\n    \n\
+    \    @DynamicTestingMethod\n    CheckResult test1() {\n        TestedProgram main\
+    \ = new TestedProgram(MainKt.class);\n        \n        String output = main.start().toLowerCase().trim();\n\
+    \        if (!output.contains(\"input the action\")) {\n            return CheckResult.wrong(\"\
+    Your program should prompt the user for an action with the message \\\"Input the\
+    \ \" +\n                    \"action\\\"\");\n        }\n        \n        output\
+    \ = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"bye\"\
+    )) {\n            return CheckResult.wrong(\"Your program should print \\\"Bye\
+    \ bye!\\\" and terminate if the user enters \" +\n                    \"\\\"exit\\\
+    \"\");\n        }\n        \n        if (!main.isFinished()) {\n            return\
+    \ CheckResult.wrong(\"Your program should terminate if the user enters \\\"exit\\\
+    \"\");\n        }\n        \n        return CheckResult.correct();\n    }\n  \
+    \  \n    //Test to check the \"add\" action\n    @DynamicTestingMethod\n    CheckResult\
+    \ test2() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n \
+    \       main.start();\n        \n        String output;\n        String lastLine;\n\
+    \        String[] lines;\n        \n        output = main.execute(\"add\").toLowerCase();\n\
+    \        if (!output.contains(\"card\")) {\n            return CheckResult.wrong(\"\
     Your program should prompt the user for the name of the card with the message\
     \  \" +\n                    \"\\\"The card:\\\"\");\n        }\n        \n  \
     \      output = main.execute(\"France\").toLowerCase();\n        if (!output.contains(\"\

@@ -9,6 +9,7 @@ class Flashcards {
     private var cards: MutableMap<String,String>
 
     init {
+        data class Flashcard(val term:String, var definition: String, var errors:Int)
         done = false
         cards = mutableMapOf()
     }
@@ -72,6 +73,15 @@ class Flashcards {
             }
         }
     }
+    fun log() {
+        print("")
+    }
+    fun hardestCard() {
+        print("")
+    }
+    fun resetStats() {
+        print("")
+    }
     fun exit() {
         println("Bye bye!")
         done = true
@@ -88,6 +98,9 @@ fun main() {
             "import" -> deck.import()
             "export" -> deck.export()
             "ask" -> deck.ask()
+            "log" -> deck.log()
+            "hardest card" -> deck.hardestCard()
+            "reset stats" -> deck.resetStats()
             "exit" -> deck.exit()
         }
     } while (!deck.done)

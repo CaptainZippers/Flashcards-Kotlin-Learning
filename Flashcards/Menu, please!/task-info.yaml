@@ -700,8 +700,5 @@ files:
     \  }\n\n}\n\n"
   learner_created: false
 feedback_link: https://hyperskill.org/projects/83/stages/461/implement
-status: Failed
-feedback:
-  message: Failed to launch checking
-  time: Sun, 10 Jan 2021 04:33:20 UTC
-record: -1
+status: Solved
+record: 5

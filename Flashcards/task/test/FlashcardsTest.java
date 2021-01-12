@@ -39,11 +39,15 @@ public class FlashcardsTest extends StageTest<String> {
         File capitalsFile = new File("capitals.txt");
         //noinspection ResultOfMethodCallIgnored
         capitalsFile.delete();
-
+        
         File capitalsNewFile = new File("capitalsNew.txt");
         //noinspection ResultOfMethodCallIgnored
         capitalsNewFile.delete();
-
+        
+        File logFile = new File("todayLog.txt");
+        //noinspection ResultOfMethodCallIgnored
+        logFile.delete();
+        
     }
     
     @DynamicTestingMethod
@@ -57,7 +61,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
         
         output = main.execute("exit").toLowerCase();
-        if (!output.contains("bye bye")) {
+        if (!output.contains("bye")) {
             return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
                     "\"exit\"");
         }
@@ -81,7 +85,7 @@ public class FlashcardsTest extends StageTest<String> {
         
         output = main.execute("add").toLowerCase();
         if (!output.contains("card")) {
-            return CheckResult.wrong("Your program should prompt the user for the name of the card with the message " +
+            return CheckResult.wrong("Your program should prompt the user for the name of the card with the message  " +
                     "\"The card:\"");
         }
         
@@ -125,15 +129,15 @@ public class FlashcardsTest extends StageTest<String> {
             return CheckResult.wrong("Your program should not add a definition that already exists and should notify " +
                     "the \"user with the message \"The definition 'definition' already exists\".");
         }
-        
+    
         output = main.execute("exit").toLowerCase();
         if (!output.contains("bye")) {
             return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
                     "\"exit\"");
         }
-        
+    
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -213,7 +217,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -279,7 +283,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -329,7 +333,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -430,7 +434,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -515,7 +519,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -548,7 +552,7 @@ public class FlashcardsTest extends StageTest<String> {
             if (index == -1) {
                 return CheckResult.wrong("The card \"" + term + "\" wasn't added, but you ask to enter its definition!");
             }
-
+            
             output = main.execute(listOfDefinitions.get(index)).toLowerCase();
             lines = output.split("\n");
             lastLine = lines[lines.length - 1];
@@ -577,7 +581,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -639,7 +643,7 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
@@ -691,6 +695,7 @@ public class FlashcardsTest extends StageTest<String> {
             }
             
             if (i == listOfTerms.size() - 1) {
+                
                 if (!lastLine.contains("input the action")) {
                     return CheckResult.wrong("Your program should request an action from the user if there are no more cards " +
                             "to ask");
@@ -698,6 +703,7 @@ public class FlashcardsTest extends StageTest<String> {
             } else {
                 term = getTerm(lastLine);
             }
+            
         }
     
         output = main.execute("exit").toLowerCase();
@@ -707,10 +713,385 @@ public class FlashcardsTest extends StageTest<String> {
         }
     
         if (!main.isFinished()) {
-            return CheckResult.wrong("Your program should termiante if the user enters \"exit\"");
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
         }
         
         return CheckResult.correct();
+    }
+    
+    //Test to check the "hardest card" action
+    @DynamicTestingMethod
+    CheckResult test11() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+        
+        String output;
+        String lastLine;
+        String[] lines;
+        
+        output = main.execute("hardest card").toLowerCase();
+        lines = output.split("\n");
+        lastLine = lines[lines.length -1];
+        
+        if (!output.contains("no cards with errors")) {
+            return CheckResult.wrong("Your program should print \"There are no cards with errors.\" if there are no " +
+                    "cards with errors");
+        }
+        
+        if (!lastLine.contains("input the action")) {
+            return CheckResult.wrong("Your program should continue to request an action from the user until they enter" +
+                    " \"exit\"");
+        }
+        
+        main.execute("add");
+        main.execute("France");
+        main.execute("Paris");
+        
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Eiffel Tower");
+        
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Lyon");
+        
+        output = main.execute("hardest card").toLowerCase();
+        if (!output.contains("the hardest card is")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+        
+        if (!output.contains("errors answering it")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+    
+        if (!output.contains("\"france\"")) {
+            return CheckResult.wrong("Your program should print the hardest card in quotes");
+        }
+        
+        if (!output.contains("2")) {
+            return CheckResult.wrong("Your program shows wrong number of errors. Expected 2");
+        }
+        
+        main.execute("export");
+        main.execute(capitalsFile);
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    @DynamicTestingMethod
+    CheckResult test12() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+    
+        String output;
+        
+        main.execute("add");
+        main.execute("Russia");
+        main.execute("Moscow");
+        
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Saint Petersburg");
+    
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Saint Petersburg");
+    
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Saint Petersburg");
+    
+        output = main.execute("hardest card").toLowerCase();
+        if (!output.contains("the hardest card is")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+    
+        if (!output.contains("errors answering it")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+    
+        if (!output.contains("\"russia\"")) {
+            return CheckResult.wrong("Your program should print the hardest card in quotes");
+        }
+    
+        if (!output.contains("3")) {
+            return CheckResult.wrong("Your program shows wrong number of errors. Expected 3");
+        }
+    
+        main.execute("export");
+        main.execute(capitalsNewFile);
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    @DynamicTestingMethod
+    CheckResult test13() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+    
+        String output;
+        
+        main.execute("import");
+        main.execute(capitalsFile);
+        
+        main.execute("import");
+        main.execute(capitalsNewFile);
+        
+        output = main.execute("hardest card").toLowerCase();
+        if (output.contains("no cards with errors")) {
+            return CheckResult.wrong("Your program should print the hardest card(s) if such card(s) exists");
+        }
+    
+        if (!output.contains("the hardest card is")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+    
+        if (!output.contains("errors answering it")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+        }
+        
+        if (output.contains("france")) {
+            return CheckResult.wrong("Your program printed the wrong card");
+        }
+    
+        if (!output.contains("\"russia\"")) {
+            return CheckResult.wrong("Your program should print the hardest card in quotes");
+        }
+    
+        if (!output.contains("3")) {
+            return CheckResult.wrong("Your program shows wrong number of errors. Expected 3");
+        }
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    @DynamicTestingMethod
+    CheckResult test14() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+    
+        String output;
+        
+        main.execute("import");
+        main.execute(capitalsFile);
+        
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Lyon");
+        
+        main.execute("import");
+        main.execute(capitalsNewFile);
+        
+        output = main.execute("hardest card").toLowerCase();
+        if (output.contains("no cards with errors")) {
+            return CheckResult.wrong("Your program should print the hardest card(s) if such card(s) exists");
+        }
+    
+        if (!output.contains("hardest cards are")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest cards are \"card#1\", \"card#2\"...\"card#n\". You have n errors answering them" +
+                    ".\"");
+        }
+    
+        if (!output.contains("errors answering them")) {
+            return CheckResult.wrong("Your program should show the user the hardest card(s) in the format \"The " +
+                    "hardest cards are \"card#1\", \"card#2\"...\"card#n\". You have n errors answering them\".");
+        }
+        
+        if (!output.contains("france")) {
+            return CheckResult.wrong("Your program should print all the cards with the highest number of errors");
+        }
+    
+        if (!output.contains("russia")) {
+            return CheckResult.wrong("Your program should print all the cards with the highest number of errors");
+        }
+    
+        if (!output.contains("\"france\"")) {
+            return CheckResult.wrong("Your program should print the hardest card(s) in quotes");
+        }
+    
+        if (!output.contains("\"russia\"")) {
+            return CheckResult.wrong("Your program should print the hardest card(s) in quotes");
+        }
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    //Test to check the "reset stats" action
+    @DynamicTestingMethod
+    CheckResult test15() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+    
+        String output;
+        
+        main.execute("hardest card");
+        
+        main.execute("import");
+        main.execute(capitalsFile);
+        
+        main.execute("hardest card");
+        
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Tokyo");
+        
+        main.execute("hardest card");
+    
+        main.execute("import");
+        main.execute(capitalsNewFile);
+        
+        output = main.execute("reset stats").toLowerCase();
+        if (!output.contains("statistics have been reset")) {
+            return CheckResult.wrong("Your program should notify the user if the stats have been reset with the " +
+                    "message \"Card statistics have been reset.\"");
+        }
+        
+        output = main.execute("hardest card").toLowerCase();
+        if (!output.contains("no cards with errors")) {
+            return CheckResult.wrong("Your program should reset the errors of all the cards back to zero");
+        }
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    //Test to check the "log" action
+    @DynamicTestingMethod
+    CheckResult test16() {
+        TestedProgram main = new TestedProgram(MainKt.class);
+        main.start();
+    
+        String output;
+    
+        main.execute("hardest card");
+    
+        main.execute("import");
+        main.execute(capitalsFile);
+    
+        main.execute("hardest card");
+    
+        main.execute("ask");
+        main.execute("1");
+        main.execute("Tokyo");
+    
+        main.execute("hardest card");
+    
+        output = main.execute("reset stats").toLowerCase();
+        if (!output.contains("statistics have been reset")) {
+            return CheckResult.wrong("Your program should notify the user if the stats have been reset with the " +
+                    "message \"Card statistics have been reset.\"");
+        }
+    
+        output = main.execute("hardest card").toLowerCase();
+        if (!output.contains("no cards with errors")) {
+            return CheckResult.wrong("Your program should reset the errors of all the cards back to zero");
+        }
+    
+        output = main.execute("log").toLowerCase();
+        if (!output.contains("file name")) {
+            return CheckResult.wrong("Your program should prompt the user for the name of the file to be saved with " +
+                    "the message \"File name:\"");
+        }
+        
+        output = main.execute("todayLog.txt").toLowerCase();
+        if (!output.contains("log has been saved")){
+            return CheckResult.wrong("Your program should notify the user if the log file was saved with the message" +
+                    " \"The log has been saved.\"");
+        }
+        
+        boolean fileExists = checkFileExistence("todayLog.txt");
+        if (!fileExists) {
+            return CheckResult.wrong("Your program did not save the log file");
+        }
+        
+        boolean validContent = checkLogFileLength("todayLog.txt");
+        if (!validContent) {
+            return CheckResult.wrong("The number of lines your program saves is less than the number of lines that " +
+                    "was input/output to the console");
+        }
+    
+        output = main.execute("exit").toLowerCase();
+        if (!output.contains("bye")) {
+            return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+        }
+    
+        if (!main.isFinished()) {
+            return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+        }
+        
+        return CheckResult.correct();
+    }
+    
+    private boolean checkLogFileLength(String fileName) {
+        int lineCount = 0;
+        int minimumLineExpected = 32;
+    
+        File file = new File(fileName);
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        
+            while (reader.readLine() != null) {
+                lineCount++;
+            }
+        }catch (IOException e) {}
+        
+        return minimumLineExpected < lineCount;
     }
     
     private boolean checkFileExistence(String fileName) {
@@ -727,9 +1108,7 @@ public class FlashcardsTest extends StageTest<String> {
             while (reader.readLine() != null) {
                 lineCount++;
             }
-        }catch (IOException e) {
-        
-        }
+        }catch (IOException e) {}
         
         return lineCount <= 0;
     }
@@ -802,13 +1181,6 @@ public class FlashcardsTest extends StageTest<String> {
     }
     
 }
-
-
-
-
-
-
-
 
 
 
