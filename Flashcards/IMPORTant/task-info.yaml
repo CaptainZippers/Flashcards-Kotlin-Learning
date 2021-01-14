@@ -595,48 +595,49 @@ files:
     \ return CheckResult.wrong(\"The file your program saves is empty\");\n      \
     \  }\n    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
-    \        \n        return CheckResult.correct();\n    }\n    \n    private boolean\
+    \        \n        return CheckResult.correct();\n    }\n\n    private boolean\
     \ checkLogFileLength(String fileName) {\n        int lineCount = 0;\n        int\
-    \ minimumLineExpected = 32;\n        \n        File file = new File(fileName);\n\
-    \        try (BufferedReader reader = new BufferedReader(new FileReader(file)))\
-    \ {\n            \n            while (reader.readLine() != null) {\n         \
-    \       lineCount++;\n            }\n        } catch (IOException e) {}\n    \
-    \    \n        return minimumLineExpected < lineCount;\n    }\n    \n    private\
-    \ boolean checkFileExistence(String fileName) {\n        File file = new File(fileName);\n\
-    \        return file.exists();\n    }\n    \n    private boolean isEmpty(String\
-    \ fileName) {\n        int lineCount = 0;\n        \n        File file = new File(fileName);\n\
-    \        try (BufferedReader reader = new BufferedReader(new FileReader(file)))\
-    \ {\n            \n            while (reader.readLine() != null) {\n         \
-    \       lineCount++;\n            }\n        } catch (IOException e) {}\n    \
-    \    \n        return lineCount <= 0;\n    }\n    \n    private String getTerm(String\
-    \ output) {\n        int start = output.indexOf(\"\\\"\");\n        int end =\
-    \ output.lastIndexOf(\"\\\"\");\n\n        if (start == -1 || end == - 1) {\n\
-    \            throw new WrongAnswer(\"The card should be surrounded with \\\"\\\
-    \" when you ask to print its definition!\\n\" +\n                \"For example:\
-    \ Print the definition of \\\"str()\\\"\");\n        }\n        \n        return\
-    \ output.substring((start + 1), end);\n    }\n    \n    private static List<String>\
-    \ getListOfTerms() {\n        return Arrays.asList(\n                \"print()\"\
-    ,\n                \"str()\",\n                \"son\",\n                \"daughter\"\
-    ,\n                \"uncle\",\n                \"ankle\");\n    }\n    \n    private\
-    \ static List<String> getListOfDefinitions() {\n        return Arrays.asList(\n\
-    \                \"outputs text\",\n                \"converts to a string\",\n\
-    \                \"a male child\",\n                \"a female child\",\n    \
-    \            \"a brother of one's parent\",\n                \"a part of the body\
-    \ where the foot and the leg meet\"\n        );\n    }\n    \n    //Extra wrongs\
-    \ invalidate the definition\n    private static List<String> getListOfWrongDefinitions1()\
-    \ {\n        return Arrays.asList(\n                \"outputs text line by line\"\
-    ,\n                \"converts to a string and an integer\",\n                \"\
-    a male child or a female child\",\n                \"a female child or a male\
-    \ child\",\n                \"a brother of one's parent or grandparents\",\n \
-    \               \"a part of the body where the foot and the leg meet or the arm\"\
-    \n        );\n    }\n    \n    private static List<String> getListOfCountries()\
-    \ {\n        return Arrays.asList(\n                \"Canada\",\n            \
-    \    \"Netherlands\",\n                \"Russia\",\n                \"United Kingdom\"\
-    ,\n                \"Nigeria\",\n                \"Germany\"\n        );\n   \
-    \ }\n    \n    private static List<String> getListOfCapitals() {\n        return\
-    \ Arrays.asList(\n                \"Ottawa\",\n                \"Amsterdam\",\n\
-    \                \"Moscow\",\n                \"London\",\n                \"\
-    Abuja\",\n                \"Berlin\"\n        );\n    }\n    \n}\n"
+    \ minimumLineExpected = 30;\n\n        File file = new File(fileName);\n     \
+    \   try (BufferedReader reader = new BufferedReader(new FileReader(file))) {\n\
+    \            String line;\n            while ((line = reader.readLine()) != null)\
+    \ {\n                if (!line.isEmpty())\n                    lineCount++;\n\
+    \            }\n        } catch (IOException ignored) {}\n\n        return minimumLineExpected\
+    \ < lineCount;\n    }\n    \n    private boolean checkFileExistence(String fileName)\
+    \ {\n        File file = new File(fileName);\n        return file.exists();\n\
+    \    }\n    \n    private boolean isEmpty(String fileName) {\n        int lineCount\
+    \ = 0;\n        \n        File file = new File(fileName);\n        try (BufferedReader\
+    \ reader = new BufferedReader(new FileReader(file))) {\n            \n       \
+    \     while (reader.readLine() != null) {\n                lineCount++;\n    \
+    \        }\n        } catch (IOException e) {}\n        \n        return lineCount\
+    \ <= 0;\n    }\n    \n    private String getTerm(String output) {\n        int\
+    \ start = output.indexOf(\"\\\"\");\n        int end = output.lastIndexOf(\"\\\
+    \"\");\n\n        if (start == -1 || end == - 1) {\n            throw new WrongAnswer(\"\
+    The card should be surrounded with \\\"\\\" when you ask to print its definition!\\\
+    n\" +\n                \"For example: Print the definition of \\\"str()\\\"\"\
+    );\n        }\n        \n        return output.substring((start + 1), end);\n\
+    \    }\n    \n    private static List<String> getListOfTerms() {\n        return\
+    \ Arrays.asList(\n                \"print()\",\n                \"str()\",\n \
+    \               \"son\",\n                \"daughter\",\n                \"uncle\"\
+    ,\n                \"ankle\");\n    }\n    \n    private static List<String> getListOfDefinitions()\
+    \ {\n        return Arrays.asList(\n                \"outputs text\",\n      \
+    \          \"converts to a string\",\n                \"a male child\",\n    \
+    \            \"a female child\",\n                \"a brother of one's parent\"\
+    ,\n                \"a part of the body where the foot and the leg meet\"\n  \
+    \      );\n    }\n    \n    //Extra wrongs invalidate the definition\n    private\
+    \ static List<String> getListOfWrongDefinitions1() {\n        return Arrays.asList(\n\
+    \                \"outputs text line by line\",\n                \"converts to\
+    \ a string and an integer\",\n                \"a male child or a female child\"\
+    ,\n                \"a female child or a male child\",\n                \"a brother\
+    \ of one's parent or grandparents\",\n                \"a part of the body where\
+    \ the foot and the leg meet or the arm\"\n        );\n    }\n    \n    private\
+    \ static List<String> getListOfCountries() {\n        return Arrays.asList(\n\
+    \                \"Canada\",\n                \"Netherlands\",\n             \
+    \   \"Russia\",\n                \"United Kingdom\",\n                \"Nigeria\"\
+    ,\n                \"Germany\"\n        );\n    }\n    \n    private static List<String>\
+    \ getListOfCapitals() {\n        return Arrays.asList(\n                \"Ottawa\"\
+    ,\n                \"Amsterdam\",\n                \"Moscow\",\n             \
+    \   \"London\",\n                \"Abuja\",\n                \"Berlin\"\n    \
+    \    );\n    }\n    \n}\n"
   learner_created: false
 - name: test/DialogClue.kt
   visible: false

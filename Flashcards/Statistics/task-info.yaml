@@ -12,1035 +12,1206 @@ files:
   learner_created: false
 - name: test/FlashcardsTest.java
   visible: false
-  text: "import flashcards.MainKt;\nimport org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;\n\
-    import org.hyperskill.hstest.exception.outcomes.WrongAnswer;\nimport org.hyperskill.hstest.stage.StageTest;\n\
-    import org.hyperskill.hstest.testcase.CheckResult;\nimport org.hyperskill.hstest.testcase.TestCase;\n\
-    import org.hyperskill.hstest.testing.TestedProgram;\nimport org.junit.AfterClass;\n\
-    import org.junit.BeforeClass;\n\nimport java.io.BufferedReader;\nimport java.io.File;\n\
-    import java.io.FileReader;\nimport java.io.IOException;\nimport java.util.Arrays;\n\
-    import java.util.List;\n\npublic class FlashcardsTest extends StageTest<String>\
-    \ {\n    \n    private static List<String> listOfTerms;\n    private static List<String>\
-    \ listOfDefinitions;\n    private static List<String> listOfAddedDefinitions;\n\
-    \    private static List<String> listOfCountries;\n    private static List<String>\
-    \ listOfCapitals;\n    private final String capitalsFile = \"capitals.txt\";\n\
-    \    private final String capitalsNewFile = \"capitalsNew.txt\";\n    \n    @BeforeClass\n\
-    \    public static void generateLists(){\n        listOfTerms = getListOfTerms();\n\
-    \        listOfDefinitions = getListOfDefinitions();\n        listOfAddedDefinitions\
-    \ = getListOfWrongDefinitions1();\n        listOfCountries = getListOfCountries();\n\
-    \        listOfCapitals = getListOfCapitals();\n    }\n    \n    @AfterClass\n\
-    \    public static void deleteFiles() {\n        File capitalsFile = new File(\"\
-    capitals.txt\");\n        //noinspection ResultOfMethodCallIgnored\n        capitalsFile.delete();\n\
-    \        \n        File capitalsNewFile = new File(\"capitalsNew.txt\");\n   \
-    \     //noinspection ResultOfMethodCallIgnored\n        capitalsNewFile.delete();\n\
-    \        \n        File logFile = new File(\"todayLog.txt\");\n        //noinspection\
-    \ ResultOfMethodCallIgnored\n        logFile.delete();\n        \n    }\n    \n\
-    \    @DynamicTestingMethod\n    CheckResult test1() {\n        TestedProgram main\
-    \ = new TestedProgram(MainKt.class);\n        \n        String output = main.start().toLowerCase().trim();\n\
-    \        if (!output.contains(\"input the action\")) {\n            return CheckResult.wrong(\"\
-    Your program should prompt the user for an action with the message \\\"Input the\
-    \ \" +\n                    \"action\\\"\");\n        }\n        \n        output\
-    \ = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"bye\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print \\\"Bye\
-    \ bye!\\\" and terminate if the user enters \" +\n                    \"\\\"exit\\\
-    \"\");\n        }\n        \n        if (!main.isFinished()) {\n            return\
-    \ CheckResult.wrong(\"Your program should terminate if the user enters \\\"exit\\\
-    \"\");\n        }\n        \n        return CheckResult.correct();\n    }\n  \
-    \  \n    //Test to check the \"add\" action\n    @DynamicTestingMethod\n    CheckResult\
-    \ test2() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n \
-    \       main.start();\n        \n        String output;\n        String lastLine;\n\
-    \        String[] lines;\n        \n        output = main.execute(\"add\").toLowerCase();\n\
-    \        if (!output.contains(\"card\")) {\n            return CheckResult.wrong(\"\
-    Your program should prompt the user for the name of the card with the message\
-    \  \" +\n                    \"\\\"The card:\\\"\");\n        }\n        \n  \
-    \      output = main.execute(\"France\").toLowerCase();\n        if (!output.contains(\"\
-    definition of the card\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should prompt the user for the definition of the card with the \" +\n      \
-    \              \"message \\\"The definition of the card:\\\"\");\n        }\n\
-    \        \n        output = main.execute(\"Paris\").toLowerCase();\n        if\
-    \ (!output.contains(\"pair (\\\"france\\\":\\\"paris\\\") has been added\")) {\n\
-    \            return CheckResult.wrong(\"Your program should print the message\
-    \ \\\"The pair (\\\"term\\\":\\\"definition\\\") has \" +\n                  \
-    \  \"been added\\\" after adding a card successfully\");\n        }\n        \n\
-    \        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
-    \ - 1];\n        if (!lastLine.contains(\"input the action\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should continue to request an action\
-    \ from the user until they \" +\n                    \"enter \\\"exit\\\"\");\n\
-    \        }\n        \n        main.execute(\"add\");\n        output = main.execute(\"\
-    France\").toLowerCase();\n        if (!output.contains(\"card \\\"france\\\" already\
-    \ exists\")) {\n            return CheckResult.wrong(\"Your program should not\
-    \ add a card that already exists and should notify the \" +\n                \
-    \    \"user with the message \\\"The card 'term' already exists\\\".\");\n   \
-    \     }\n        \n        lines = output.split(\"\\n\");\n        lastLine =\
-    \ lines[lines.length - 1];\n        if (!lastLine.contains(\"input the action\"\
-    )) {\n            return CheckResult.wrong(\"Your program should request an action\
-    \ from the user if a card was declined \" +\n                    \"because it\
-    \ already exists\");\n        }\n        \n        main.execute(\"add\");\n  \
-    \      main.execute(\"Great Britain\");\n        output = main.execute(\"Paris\"\
-    ).toLowerCase();\n        if (!output.contains(\"definition \\\"paris\\\" already\
-    \ exists\")) {\n            return CheckResult.wrong(\"Your program should not\
-    \ add a definition that already exists and should notify \" +\n              \
-    \      \"the \\\"user with the message \\\"The definition 'definition' already\
-    \ exists\\\".\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    //Test to check the \"remove\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test3() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
-    \        main.start();\n        \n        String output;\n        String lastLine;\n\
-    \        String[] lines;\n        \n        //No need to check user's output because\
-    \ they have been checked in test 2.\n        main.execute(\"add\");\n        main.execute(\"\
-    France\");\n        main.execute(\"Paris\");\n        \n        main.execute(\"\
-    add\");\n        main.execute(\"Japan\");\n        main.execute(\"Tokyo\");\n\
-    \        \n        main.execute(\"add\");\n        main.execute(\"Great Britain\"\
-    );\n        main.execute(\"London\");\n        \n        output = main.execute(\"\
-    remove\").toLowerCase();\n        if (!output.contains(\"which card\")) {\n  \
-    \          return CheckResult.wrong(\"Your program should prompt the user for\
-    \ the name of the card with the message \" +\n                    \"\\\"Which\
-    \ card?\\\"\");\n        }\n        \n        output = main.execute(\"Japan\"\
-    ).toLowerCase();\n        if (!output.contains(\"card has been removed\")) {\n\
-    \            return CheckResult.wrong(\"Your program should notify the user with\
-    \ the message \" +\n                    \"\\\"The card has been removed.\\\" if\
-    \ the card was removed successfully\");\n        }\n        \n        lines =\
-    \ output.split(\"\\n\");\n        lastLine = lines[lines.length - 1];\n      \
-    \  if (!lastLine.contains(\"input the action\")) {\n            return CheckResult.wrong(\"\
-    Your program should continue to request an action from the user until they \"\
-    \ +\n                    \"enter \\\"exit\\\"\");\n        }\n        \n     \
-    \   main.execute(\"remove\");\n        output = main.execute(\"Wakanda\").toLowerCase();\n\
-    \        if (!output.contains(\"can't remove \\\"wakanda\\\"\")) {\n         \
-    \   return CheckResult.wrong(\"Your program should notify the user with the message\"\
-    \ +\n                    \" \\\"Can't remove 'card': there is no such card.\\\"\
-    \ if the card doesn't exist\");\n        }\n        \n        if (!output.contains(\"\
-    no such card\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ notify the user with the message\" +\n                    \" \\\"Can't remove\
-    \ 'card': there is no such card.\\\" if the card doesn't exist\");\n        }\n\
-    \        \n        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
-    \ - 1];\n        if (!lastLine.contains(\"input the action\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should request an action from the user\
-    \ even if a card could not be\" +\n                    \" removed\");\n      \
-    \  }\n        \n        main.execute(\"remove\");\n        output = main.execute(\"\
-    Tokyo\").toLowerCase();\n        if (output.contains(\"card has been removed\"\
-    )) {\n            return CheckResult.wrong(\"You should not be able to remove\
-    \ a card by it's definition\");\n        }\n    \n        output = main.execute(\"\
-    exit\").toLowerCase();\n        if (!output.contains(\"bye\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
-    \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
-    \    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
-    Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
-    \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
-    \ \"export\" action\n    @DynamicTestingMethod\n    CheckResult test4() {\n  \
-    \      TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        boolean fileExists;\n        boolean empty;\n        \n    \
-    \    main.execute(\"add\");\n        main.execute(\"Japan\");\n        main.execute(\"\
-    Tokyo\");\n        \n        main.execute(\"add\");\n        main.execute(\"France\"\
-    );\n        main.execute(\"Paris\");\n        \n        output = main.execute(\"\
-    export\").toLowerCase();\n        if (!output.contains(\"file name\")) {\n   \
-    \         return CheckResult.wrong(\"Your program should prompt the user for the\
-    \ name of the file with the message \" +\n                    \"\\\"File name:\\\
-    \"\");\n        }\n        \n        output = main.execute(capitalsFile).toLowerCase();\n\
-    \        if (!output.contains(\"2 cards\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were exported. Expected 2\");\n        }\n        \n   \
-    \     if (!output.contains(\"saved\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the cards were exported with the message\
-    \ \" +\n                    \"\\\"n cards have been saved.\\\" where \\\"n\\\"\
-    \ is the number of cards exported\");\n        }\n        \n        fileExists\
-    \ = checkFileExistence(capitalsFile);\n        if (!fileExists) {\n          \
-    \  return CheckResult.wrong(\"Your program did not save a file after exporting\"\
-    );\n        }\n        \n        empty = isEmpty(capitalsFile);\n        if (empty)\
-    \ {\n            return CheckResult.wrong(\"The file your program saves is empty\"\
-    );\n        }\n        \n        lines = output.split(\"\\n\");\n        lastLine\
-    \ = lines[lines.length - 1];\n        if (!lastLine.contains(\"input the action\"\
-    )) {\n            return CheckResult.wrong(\"Your program should continue to request\
-    \ an action from the user until they \" +\n                    \"enter \\\"exit\\\
-    \"\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    //saves file for the next test\n    @DynamicTestingMethod\n\
-    \    CheckResult test5() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
-    \        main.start();\n        \n        String output;\n        boolean fileExists;\n\
-    \        boolean empty;\n        \n        for (int i = 0; i < listOfCountries.size();\
-    \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfCountries.get(i));\n\
-    \            main.execute(listOfCapitals.get(i));\n        }\n        \n     \
-    \   main.execute(\"export\");\n        output = main.execute(capitalsNewFile).toLowerCase();\n\
-    \        if (!output.contains(\"6 cards\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were exported. Expected 6\");\n        }\n        \n   \
-    \     if (!output.contains(\"saved\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the cards were exported with the message\"\
-    \ +\n                    \" \\\"n cards have been saved.\\\" where \\\"n\\\" is\
-    \ the number of cards exported\");\n        }\n        \n        fileExists =\
-    \ checkFileExistence(capitalsNewFile);\n        if (!fileExists) {\n         \
-    \   return CheckResult.wrong(\"Your program did not save a file after exporting\"\
-    );\n        }\n        \n        empty = isEmpty(capitalsNewFile);\n        if\
-    \ (empty) {\n            return CheckResult.wrong(\"The file your program saves\
-    \ is empty\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    //Test to check \"import\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test6() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
-    \        main.start();\n        \n        String output;\n        String lastLine;\n\
-    \        String[] lines;\n        boolean fileExists;\n        boolean empty;\n\
-    \        \n        output = main.execute(\"import\").toLowerCase();\n        if\
-    \ (!output.contains(\"file name\")) {\n            return CheckResult.wrong(\"\
-    Your program should prompt the user for the name of the file with the message\
-    \ \" +\n                    \"\\\"File name:\\\"\");\n        }\n        \n  \
-    \      String nonExistentFile = \"ghost_file.txt\";\n        output = main.execute(nonExistentFile).toLowerCase();\n\
-    \        if (!output.contains(\"not found\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the file does not exist with the message\"\
-    \ +\n                    \" \\\"File not found.\\\"\");\n        }\n        \n\
-    \        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
-    \ - 1];\n        if (!lastLine.contains(\"input the action\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should continue to request an action\
-    \ from the user until they \" +\n                    \"enter \\\"exit\\\"\");\n\
-    \        }\n        \n        main.execute(\"import\");\n        output = main.execute(capitalsFile).toLowerCase();\n\
-    \        if (output.contains(\"not found\")) {\n            return CheckResult.wrong(\"\
-    You should be able to import a file that you previously saved.\");\n        }\n\
-    \        \n        if (!output.contains(\"2 cards\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were imported. Expected 2\");\n        }\n        \n   \
-    \     if (!output.contains(\"been loaded\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the cards were imported with the message\"\
-    \ +\n                    \" \\\"n cards have been loaded.\\\" where \\\"n\\\"\
-    \ is the number of cards in the file\");\n        }\n        \n        lines =\
-    \ output.split(\"\\n\");\n        lastLine = lines[lines.length - 1];\n      \
-    \  if (!lastLine.contains(\"input the action\")) {\n            return CheckResult.wrong(\"\
-    Your program should continue to request an action from the user until they \"\
-    \ +\n                    \"enter \\\"exit\\\"\");\n        }\n        \n     \
-    \   main.execute(\"remove\");\n        output = main.execute(\"Japan\").toLowerCase();\n\
-    \        if (!output.contains(\"card has been removed\")) {\n            return\
-    \ CheckResult.wrong(\"You should be able to remove a card that you imported from\
-    \ a file\");\n        }\n        \n        main.execute(\"export\");\n       \
-    \ output = main.execute(capitalsFile).toLowerCase();\n        if (!output.contains(\"\
-    1 card\")) {\n            return CheckResult.wrong(\"Wrong number of cards were\
-    \ exported. Expected 1\");\n        }\n        \n        main.execute(\"import\"\
-    );\n        output = main.execute(capitalsNewFile).toLowerCase();\n        if\
-    \ (!output.contains(\"6 cards\")) {\n            return CheckResult.wrong(\"Wrong\
-    \ number of cards were imported. Expected 6\");\n        }\n        \n       \
-    \ main.execute(\"export\");\n        output = main.execute(capitalsNewFile).toLowerCase();\n\
-    \        if (!output.contains(\"7 cards\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were exported. Expected 7\");\n        }\n        \n   \
-    \     fileExists = checkFileExistence(capitalsNewFile);\n        if (!fileExists)\
-    \ {\n            return CheckResult.wrong(\"Your program did not save a file after\
-    \ exporting\");\n        }\n        \n        empty = isEmpty(capitalsNewFile);\n\
-    \        if (empty) {\n            return CheckResult.wrong(\"The file your program\
-    \ saves is empty\");\n        }\n    \n        output = main.execute(\"exit\"\
-    ).toLowerCase();\n        if (!output.contains(\"bye\")) {\n            return\
-    \ CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
-    \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
-    \    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
-    Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
-    \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
-    \ \"ask\" action\n    @DynamicTestingMethod\n    CheckResult test7() {\n     \
-    \   TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        \n        main.execute(\"add\");\n        main.execute(\"France\"\
-    );\n        main.execute(\"Eiffel Tower\");\n        \n        main.execute(\"\
-    import\");\n        output = main.execute(capitalsFile).toLowerCase();\n     \
-    \   if (!output.contains(\"1 card\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were imported. Expected 1\");\n        }\n        \n   \
-    \     if (!output.contains(\"been loaded\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the cards were imported with the message\"\
-    \ +\n                    \" \\\"n cards have been loaded.\\\" where \\\"n\\\"\
-    \ is the number of cards in the file\");\n        }\n        \n        output\
-    \ = main.execute(\"ask\").toLowerCase();\n        if (!output.contains(\"times\"\
-    )) {\n            return CheckResult.wrong(\"Your program should prompt the user\
-    \ for the number of cards they want to be \" +\n                    \"asked about\
-    \ with the message \\\"How many times to ask?\\\"\");\n        }\n        \n \
-    \       \n        output = main.execute(\"1\").toLowerCase();\n        if (!output.contains(\"\
-    \\\"france\\\"\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ print the definition requested for in quotes\");\n        }\n        \n    \
-    \    if (!output.contains(\"definition\")) {\n            return CheckResult.wrong(\"\
-    Your program should prompt the user for the definition of a card with the \" +\n\
-    \                    \"message \\\" Print the definition of \\\"term\\\": where\
-    \ \\\"term\\\" is the term of the flashcard to be \" +\n                    \"\
-    checked\");\n        }\n        \n        output = main.execute(\"Eiffel Tower\"\
-    ).toLowerCase();\n        if (output.equals(\"correct!\")) {\n            return\
-    \ CheckResult.wrong(\"If the program's memory already has a card that is also\
-    \ contained in the file \" +\n                    \"imported, then the definition\
-    \ of the card from the file should overwrite the one in the \" +\n           \
-    \         \"program's memory\");\n        }\n        \n        if (!output.contains(\"\
-    wrong. the right answer is \\\"paris\\\"\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Wrong\\\" followed by the correct definition in\
-    \ quotes\" +\n                    \" if the user inputs the wrong definition\"\
-    );\n        }\n        \n        lines = output.split(\"\\n\");\n        lastLine\
-    \ = lines[lines.length - 1];\n        if (!lastLine.contains(\"input the action\"\
-    )) {\n            return CheckResult.wrong(\"Your program should request an action\
-    \ from the user if there are no more cards \" +\n                    \"to ask\"\
-    );\n        }\n        \n        main.execute(\"ask\");\n        main.execute(\"\
-    1\");\n        output = main.execute(\"Paris\").toLowerCase();\n        lines\
-    \ = output.split(\"\\n\");\n        \n        if (!lines[0].equals(\"correct!\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print \\\"Correct!\\\
-    \" if the user inputs the correct \" +\n                    \"definition\");\n\
-    \        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n   \
-    \     if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test8() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int index;\n        String output;\n        String term;\n        String\
-    \ lastLine;\n        String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
-    \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfTerms.get(i));\n\
-    \            main.execute(listOfDefinitions.get(i));\n        }\n        \n  \
-    \      main.execute(\"ask\");\n        output = main.execute(\"6\").toLowerCase();\n\
-    \        term = getTerm(output);\n        \n        for (int i = 0; i < listOfTerms.size();\
-    \ i++){\n            index = listOfTerms.indexOf(term);\n\n            if (index\
-    \ == -1) {\n                return CheckResult.wrong(\"The card \\\"\" + term\
-    \ + \"\\\" wasn't added, but you ask to enter its definition!\");\n          \
-    \  }\n            \n            output = main.execute(listOfDefinitions.get(index)).toLowerCase();\n\
-    \            lines = output.split(\"\\n\");\n            lastLine = lines[lines.length\
-    \ - 1];\n            \n            if (!lines[0].equals(\"correct!\")) {\n   \
-    \             return CheckResult.wrong(\"Your program should print \\\"Correct!\\\
-    \" if the user inputs the correct\" +\n                        \" definition\"\
-    );\n            }\n            \n            if (i == listOfTerms.size() - 1)\
-    \ {\n                \n                if (!lastLine.contains(\"input the action\"\
-    )) {\n                    return CheckResult.wrong(\"Your program should request\
-    \ an action from the user if there are no more cards \" +\n                  \
-    \          \"to ask\");\n                }\n            } else {\n           \
-    \     term = getTerm(lastLine);\n            }\n            \n        }\n    \n\
-    \        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
-    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
-    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
-    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
-    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
-    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test9() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int index;\n        String output;\n        String term;\n        String\
-    \ lastLine;\n        String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
-    \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfTerms.get(i));\n\
-    \            main.execute(listOfDefinitions.get(i));\n        }\n        \n  \
-    \      main.execute(\"ask\");\n        output = main.execute(\"6\").toLowerCase();\n\
-    \        term = getTerm(output);\n        \n        for (int i = 0; i < listOfTerms.size();\
-    \ i++){\n            index = listOfTerms.indexOf(term);\n\n            if (index\
-    \ == -1) {\n                return CheckResult.wrong(\"The card \\\"\" + term\
-    \ + \"\\\" wasn't added, but you ask to enter its definition!\");\n          \
-    \  }\n            \n            output = main.execute(listOfAddedDefinitions.get(index)).toLowerCase();\n\
-    \            lines = output.split(\"\\n\");\n            lastLine = lines[lines.length\
-    \ - 1];\n            \n            if (!lines[0].contains(\"wrong. the right answer\
-    \ is \\\"\" + listOfDefinitions.get(index) + \"\\\"\")) {\n                return\
-    \ CheckResult.wrong(\"Your program should print \\\"Wrong\\\" followed by the\
-    \ correct definition\" +\n                        \" in quotes if the user inputs\
-    \ the wrong definition\");\n            }\n            \n            if (i ==\
-    \ listOfTerms.size() - 1) {\n                \n                if (!lastLine.contains(\"\
-    input the action\")) {\n                    return CheckResult.wrong(\"Your program\
-    \ should request an action from the user if there are no more cards \" +\n   \
-    \                         \"to ask\");\n                }\n            } else\
-    \ {\n                term = getTerm(lastLine);\n            }\n            \n\
-    \        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n   \
-    \     if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test10() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int wrongIndex;\n        int index;\n        String output;\n        String\
-    \ term;\n        String lastLine;\n        String[] lines;\n        \n       \
-    \ for (int i = 0; i < listOfTerms.size(); i++) {\n            main.execute(\"\
-    add\");\n            main.execute(listOfTerms.get(i));\n            main.execute(listOfDefinitions.get(i));\n\
-    \        }\n        \n        main.execute(\"ask\");\n        output = main.execute(\"\
-    6\").toLowerCase();\n        term = getTerm(output);\n        \n        for (int\
-    \ i = 0; i < listOfTerms.size(); i++){\n            index = listOfTerms.indexOf(term);\n\
-    \n            if (index == -1) {\n                return CheckResult.wrong(\"\
-    The card \\\"\" + term + \"\\\" wasn't added, but you ask to enter its definition!\"\
-    );\n            }\n\n            wrongIndex = index == listOfDefinitions.size()\
-    \ - 1 ? index - 1 : index + 1;\n            \n            output = main.execute(listOfDefinitions.get(wrongIndex)).toLowerCase();\n\
-    \            lines = output.split(\"\\n\");\n            lastLine = lines[lines.length\
-    \ - 1];\n            \n            if (!lines[0].contains(\"wrong. the right answer\
-    \ is \\\"\" + listOfDefinitions.get(index) + \"\\\"\")) {\n                return\
-    \ CheckResult.wrong(\"Your program should print \\\"Wrong\\\" followed by the\
-    \ correct definition\" +\n                        \" in quotes if the user inputs\
-    \ the wrong definition\");\n            }\n            \n            if (!lines[0].contains(\"\
-    correct for \\\"\" + listOfTerms.get(wrongIndex) + \"\\\"\")) {\n            \
-    \    return CheckResult.wrong(\"Your output should also contain \\\"but your definition\
-    \ is correct for 'term'\" +\n                        \" \\\"\");\n           \
-    \ }\n            \n            if (i == listOfTerms.size() - 1) {\n          \
-    \      \n                if (!lastLine.contains(\"input the action\")) {\n   \
-    \                 return CheckResult.wrong(\"Your program should request an action\
-    \ from the user if there are no more cards \" +\n                            \"\
-    to ask\");\n                }\n            } else {\n                term = getTerm(lastLine);\n\
-    \            }\n            \n        }\n    \n        output = main.execute(\"\
-    exit\").toLowerCase();\n        if (!output.contains(\"bye\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
-    \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
-    \    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
-    Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
-    \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
-    \ the \"hardest card\" action\n    @DynamicTestingMethod\n    CheckResult test11()\
-    \ {\n        TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        \n        output = main.execute(\"hardest card\").toLowerCase();\n\
-    \        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
-    \ -1];\n        \n        if (!output.contains(\"no cards with errors\")) {\n\
-    \            return CheckResult.wrong(\"Your program should print \\\"There are\
-    \ no cards with errors.\\\" if there are no \" +\n                    \"cards\
-    \ with errors\");\n        }\n        \n        if (!lastLine.contains(\"input\
-    \ the action\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ continue to request an action from the user until they enter\" +\n         \
-    \           \" \\\"exit\\\"\");\n        }\n        \n        main.execute(\"\
-    add\");\n        main.execute(\"France\");\n        main.execute(\"Paris\");\n\
-    \        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n    \
-    \    main.execute(\"Eiffel Tower\");\n        \n        main.execute(\"ask\");\n\
-    \        main.execute(\"1\");\n        main.execute(\"Lyon\");\n        \n   \
-    \     output = main.execute(\"hardest card\").toLowerCase();\n        if (!output.contains(\"\
-    the hardest card is\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should show the user the hardest card(s) in the format\" +\n               \
-    \     \" \\\"The hardest card is \\\"card\\\". You have n errors answering it.\\\
-    \"\");\n        }\n        \n        if (!output.contains(\"errors answering it\"\
-    )) {\n            return CheckResult.wrong(\"Your program should show the user\
-    \ the hardest card(s) in the format\" +\n                    \" \\\"The hardest\
-    \ card is \\\"card\\\". You have n errors answering it.\\\"\");\n        }\n \
-    \   \n        if (!output.contains(\"\\\"france\\\"\")) {\n            return\
-    \ CheckResult.wrong(\"Your program should print the hardest card in quotes\");\n\
-    \        }\n        \n        if (!output.contains(\"2\")) {\n            return\
-    \ CheckResult.wrong(\"Your program shows wrong number of errors. Expected 2\"\
-    );\n        }\n        \n        main.execute(\"export\");\n        main.execute(capitalsFile);\n\
-    \    \n        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
-    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
-    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
-    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
-    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
-    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test12() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n    \n     \
-    \   String output;\n        \n        main.execute(\"add\");\n        main.execute(\"\
-    Russia\");\n        main.execute(\"Moscow\");\n        \n        main.execute(\"\
-    ask\");\n        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\"\
-    );\n    \n        main.execute(\"ask\");\n        main.execute(\"1\");\n     \
-    \   main.execute(\"Saint Petersburg\");\n    \n        main.execute(\"ask\");\n\
-    \        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\");\n \
-    \   \n        output = main.execute(\"hardest card\").toLowerCase();\n       \
-    \ if (!output.contains(\"the hardest card is\")) {\n            return CheckResult.wrong(\"\
-    Your program should show the user the hardest card(s) in the format\" +\n    \
-    \                \" \\\"The hardest card is \\\"card\\\". You have n errors answering\
-    \ it.\\\"\");\n        }\n    \n        if (!output.contains(\"errors answering\
-    \ it\")) {\n            return CheckResult.wrong(\"Your program should show the\
-    \ user the hardest card(s) in the format\" +\n                    \" \\\"The hardest\
-    \ card is \\\"card\\\". You have n errors answering it.\\\"\");\n        }\n \
-    \   \n        if (!output.contains(\"\\\"russia\\\"\")) {\n            return\
-    \ CheckResult.wrong(\"Your program should print the hardest card in quotes\");\n\
-    \        }\n    \n        if (!output.contains(\"3\")) {\n            return CheckResult.wrong(\"\
-    Your program shows wrong number of errors. Expected 3\");\n        }\n    \n \
-    \       main.execute(\"export\");\n        main.execute(capitalsNewFile);\n  \
-    \  \n        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
-    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
-    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
-    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
-    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
-    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test13() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n    \n     \
-    \   String output;\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
-    \        \n        main.execute(\"import\");\n        main.execute(capitalsNewFile);\n\
-    \        \n        output = main.execute(\"hardest card\").toLowerCase();\n  \
-    \      if (output.contains(\"no cards with errors\")) {\n            return CheckResult.wrong(\"\
-    Your program should print the hardest card(s) if such card(s) exists\");\n   \
-    \     }\n    \n        if (!output.contains(\"the hardest card is\")) {\n    \
-    \        return CheckResult.wrong(\"Your program should show the user the hardest\
-    \ card(s) in the format\" +\n                    \" \\\"The hardest card is \\\
-    \"card\\\". You have n errors answering it.\\\"\");\n        }\n    \n       \
-    \ if (!output.contains(\"errors answering it\")) {\n            return CheckResult.wrong(\"\
-    Your program should show the user the hardest card(s) in the format\" +\n    \
-    \                \" \\\"The hardest card is \\\"card\\\". You have n errors answering\
-    \ it.\\\"\");\n        }\n        \n        if (output.contains(\"france\")) {\n\
-    \            return CheckResult.wrong(\"Your program printed the wrong card\"\
-    );\n        }\n    \n        if (!output.contains(\"\\\"russia\\\"\")) {\n   \
-    \         return CheckResult.wrong(\"Your program should print the hardest card\
-    \ in quotes\");\n        }\n    \n        if (!output.contains(\"3\")) {\n   \
-    \         return CheckResult.wrong(\"Your program shows wrong number of errors.\
-    \ Expected 3\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test14() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n    \n     \
-    \   String output;\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
-    \        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n    \
-    \    main.execute(\"Lyon\");\n        \n        main.execute(\"import\");\n  \
-    \      main.execute(capitalsNewFile);\n        \n        output = main.execute(\"\
-    hardest card\").toLowerCase();\n        if (output.contains(\"no cards with errors\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print the hardest\
-    \ card(s) if such card(s) exists\");\n        }\n    \n        if (!output.contains(\"\
-    hardest cards are\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ show the user the hardest card(s) in the format\" +\n                    \"\
-    \ \\\"The hardest cards are \\\"card#1\\\", \\\"card#2\\\"...\\\"card#n\\\". You\
-    \ have n errors answering them\" +\n                    \".\\\"\");\n        }\n\
-    \    \n        if (!output.contains(\"errors answering them\")) {\n          \
-    \  return CheckResult.wrong(\"Your program should show the user the hardest card(s)\
-    \ in the format \\\"The \" +\n                    \"hardest cards are \\\"card#1\\\
-    \", \\\"card#2\\\"...\\\"card#n\\\". You have n errors answering them\\\".\");\n\
-    \        }\n        \n        if (!output.contains(\"france\")) {\n          \
-    \  return CheckResult.wrong(\"Your program should print all the cards with the\
-    \ highest number of errors\");\n        }\n    \n        if (!output.contains(\"\
-    russia\")) {\n            return CheckResult.wrong(\"Your program should print\
-    \ all the cards with the highest number of errors\");\n        }\n    \n     \
-    \   if (!output.contains(\"\\\"france\\\"\")) {\n            return CheckResult.wrong(\"\
-    Your program should print the hardest card(s) in quotes\");\n        }\n    \n\
-    \        if (!output.contains(\"\\\"russia\\\"\")) {\n            return CheckResult.wrong(\"\
-    Your program should print the hardest card(s) in quotes\");\n        }\n    \n\
-    \        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
-    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
-    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
-    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
-    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
-    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    //Test to check the \"reset stats\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test15() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
-    \        main.start();\n    \n        String output;\n        \n        main.execute(\"\
-    hardest card\");\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
-    \        \n        main.execute(\"hardest card\");\n        \n        main.execute(\"\
-    ask\");\n        main.execute(\"1\");\n        main.execute(\"Tokyo\");\n    \
-    \    \n        main.execute(\"hardest card\");\n    \n        main.execute(\"\
-    import\");\n        main.execute(capitalsNewFile);\n        \n        output =\
-    \ main.execute(\"reset stats\").toLowerCase();\n        if (!output.contains(\"\
-    statistics have been reset\")) {\n            return CheckResult.wrong(\"Your\
-    \ program should notify the user if the stats have been reset with the \" +\n\
-    \                    \"message \\\"Card statistics have been reset.\\\"\");\n\
-    \        }\n        \n        output = main.execute(\"hardest card\").toLowerCase();\n\
-    \        if (!output.contains(\"no cards with errors\")) {\n            return\
-    \ CheckResult.wrong(\"Your program should reset the errors of all the cards back\
-    \ to zero\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    //Test to check the \"log\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test16() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
-    \        main.start();\n    \n        String output;\n    \n        main.execute(\"\
-    hardest card\");\n    \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
-    \    \n        main.execute(\"hardest card\");\n    \n        main.execute(\"\
-    ask\");\n        main.execute(\"1\");\n        main.execute(\"Tokyo\");\n    \n\
-    \        main.execute(\"hardest card\");\n    \n        output = main.execute(\"\
-    reset stats\").toLowerCase();\n        if (!output.contains(\"statistics have\
-    \ been reset\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ notify the user if the stats have been reset with the \" +\n               \
-    \     \"message \\\"Card statistics have been reset.\\\"\");\n        }\n    \n\
-    \        output = main.execute(\"hardest card\").toLowerCase();\n        if (!output.contains(\"\
-    no cards with errors\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should reset the errors of all the cards back to zero\");\n        }\n    \n\
-    \        output = main.execute(\"log\").toLowerCase();\n        if (!output.contains(\"\
-    file name\")) {\n            return CheckResult.wrong(\"Your program should prompt\
-    \ the user for the name of the file to be saved with \" +\n                  \
-    \  \"the message \\\"File name:\\\"\");\n        }\n        \n        output =\
-    \ main.execute(\"todayLog.txt\").toLowerCase();\n        if (!output.contains(\"\
-    log has been saved\")){\n            return CheckResult.wrong(\"Your program should\
-    \ notify the user if the log file was saved with the message\" +\n           \
-    \         \" \\\"The log has been saved.\\\"\");\n        }\n        \n      \
-    \  boolean fileExists = checkFileExistence(\"todayLog.txt\");\n        if (!fileExists)\
-    \ {\n            return CheckResult.wrong(\"Your program did not save the log\
-    \ file\");\n        }\n        \n        boolean validContent = checkLogFileLength(\"\
-    todayLog.txt\");\n        if (!validContent) {\n            return CheckResult.wrong(\"\
-    The number of lines your program saves is less than the number of lines that \"\
-    \ +\n                    \"was input/output to the console\");\n        }\n  \
-    \  \n        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
-    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
-    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
-    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
-    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
-    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    private boolean checkLogFileLength(String fileName) {\n    \
-    \    int lineCount = 0;\n        int minimumLineExpected = 32;\n    \n       \
-    \ File file = new File(fileName);\n        try (BufferedReader reader = new BufferedReader(new\
-    \ FileReader(file))) {\n        \n            while (reader.readLine() != null)\
-    \ {\n                lineCount++;\n            }\n        }catch (IOException\
-    \ e) {}\n        \n        return minimumLineExpected < lineCount;\n    }\n  \
-    \  \n    private boolean checkFileExistence(String fileName) {\n        File file\
-    \ = new File(fileName);\n        return file.exists();\n    }\n    \n    private\
-    \ boolean isEmpty(String fileName) {\n        int lineCount = 0;\n        \n \
-    \       File file = new File(fileName);\n        try (BufferedReader reader =\
-    \ new BufferedReader(new FileReader(file))) {\n            \n            while\
-    \ (reader.readLine() != null) {\n                lineCount++;\n            }\n\
-    \        }catch (IOException e) {}\n        \n        return lineCount <= 0;\n\
-    \    }\n    \n    private String getTerm(String output) {\n        int start =\
-    \ output.indexOf(\"\\\"\");\n        int end = output.lastIndexOf(\"\\\"\");\n\
-    \n        if (start == -1 || end == - 1) {\n            throw new WrongAnswer(\"\
-    The card should be surrounded with \\\"\\\" when you ask to print its definition!\\\
-    n\" +\n                \"For example: Print the definition of \\\"str()\\\"\"\
-    );\n        }\n        \n        return output.substring((start + 1), end);\n\
-    \    }\n    \n    private static List<String> getListOfTerms() {\n        return\
-    \ Arrays.asList(\n                \"print()\",\n                \"str()\",\n \
-    \               \"son\",\n                \"daughter\",\n                \"uncle\"\
-    ,\n                \"ankle\");\n    }\n    \n    private static List<String> getListOfDefinitions()\
-    \ {\n        return Arrays.asList(\n                \"outputs text\",\n      \
-    \          \"converts to a string\",\n                \"a male child\",\n    \
-    \            \"a female child\",\n                \"a brother of one's parent\"\
-    ,\n                \"a part of the body where the foot and the leg meet\"\n  \
-    \      );\n    }\n    \n    //Extra wrongs invalidate the definition\n    private\
-    \ static List<String> getListOfWrongDefinitions1() {\n        return Arrays.asList(\n\
-    \                \"outputs text line by line\",\n                \"converts to\
-    \ a string and an integer\",\n                \"a male child or a female child\"\
-    ,\n                \"a female child or a male child\",\n                \"a brother\
-    \ of one's parent or grandparents\",\n                \"a part of the body where\
-    \ the foot and the leg meet or the arm\"\n        );\n    }\n    \n    private\
-    \ static List<String> getListOfCountries() {\n        return Arrays.asList(\n\
-    \                \"Canada\",\n                \"Netherlands\",\n             \
-    \   \"Russia\",\n                \"United Kingdom\",\n                \"Nigeria\"\
-    ,\n                \"Germany\"\n        );\n    }\n    \n    private static List<String>\
-    \ getListOfCapitals() {\n        return Arrays.asList(\n                \"Ottawa\"\
-    ,\n                \"Amsterdam\",\n                \"Moscow\",\n             \
-    \   \"London\",\n                \"Abuja\",\n                \"Berlin\"\n    \
-    \    );\n    }\n    \n}\n\n\n\n\n"
+  text: |+
+    import flashcards.MainKt;
+    import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+    import org.hyperskill.hstest.exception.outcomes.WrongAnswer;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+    import org.hyperskill.hstest.testing.TestedProgram;
+    import org.junit.AfterClass;
+    import org.junit.BeforeClass;
+
+    import java.io.BufferedReader;
+    import java.io.File;
+    import java.io.FileReader;
+    import java.io.IOException;
+    import java.util.Arrays;
+    import java.util.List;
+
+    public class FlashcardsTest extends StageTest<String> {
+
+        private static List<String> listOfTerms;
+        private static List<String> listOfDefinitions;
+        private static List<String> listOfAddedDefinitions;
+        private static List<String> listOfCountries;
+        private static List<String> listOfCapitals;
+        private final String capitalsFile = "capitals.txt";
+        private final String capitalsNewFile = "capitalsNew.txt";
+
+        @BeforeClass
+        public static void generateLists() {
+            listOfTerms = getListOfTerms();
+            listOfDefinitions = getListOfDefinitions();
+            listOfAddedDefinitions = getListOfWrongDefinitions1();
+            listOfCountries = getListOfCountries();
+            listOfCapitals = getListOfCapitals();
+        }
+
+        @AfterClass
+        public static void deleteFiles() {
+            File capitalsFile = new File("capitals.txt");
+            //noinspection ResultOfMethodCallIgnored
+            capitalsFile.delete();
+
+            File capitalsNewFile = new File("capitalsNew.txt");
+            //noinspection ResultOfMethodCallIgnored
+            capitalsNewFile.delete();
+
+            File logFile = new File("todayLog.txt");
+            //noinspection ResultOfMethodCallIgnored
+            logFile.delete();
+
+        }
+
+        @DynamicTestingMethod
+        CheckResult test1() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+
+            String output = main.start().toLowerCase().trim();
+            if (!output.contains("input the action")) {
+                return CheckResult.wrong("Your program should prompt the user for an action with the message \"Input the " +
+                    "action\"");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check the "add" action
+        @DynamicTestingMethod
+        CheckResult test2() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+
+            output = main.execute("add").toLowerCase();
+            if (!output.contains("card")) {
+                return CheckResult.wrong("Your program should prompt the user for the name of the card with the message  " +
+                    "\"The card:\"");
+            }
+
+            output = main.execute("France").toLowerCase();
+            if (!output.contains("definition of the card")) {
+                return CheckResult.wrong("Your program should prompt the user for the definition of the card with the " +
+                    "message \"The definition of the card:\"");
+            }
+
+            output = main.execute("Paris").toLowerCase();
+            if (!output.contains("pair (\"france\":\"paris\") has been added")) {
+                return CheckResult.wrong("Your program should print the message \"The pair (\"term\":\"definition\") has " +
+                    "been added\" after adding a card successfully");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they " +
+                    "enter \"exit\"");
+            }
+
+            main.execute("add");
+            output = main.execute("France").toLowerCase();
+            if (!output.contains("card \"france\" already exists")) {
+                return CheckResult.wrong("Your program should not add a card that already exists and should notify the " +
+                    "user with the message \"The card 'term' already exists\".");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should request an action from the user if a card was declined " +
+                    "because it already exists");
+            }
+
+            main.execute("add");
+            main.execute("Great Britain");
+            output = main.execute("Paris").toLowerCase();
+            if (!output.contains("definition \"paris\" already exists")) {
+                return CheckResult.wrong("Your program should not add a definition that already exists and should notify " +
+                    "the \"user with the message \"The definition 'definition' already exists\".");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check the "remove" action
+        @DynamicTestingMethod
+        CheckResult test3() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+
+            //No need to check user's output because they have been checked in test 2.
+            main.execute("add");
+            main.execute("France");
+            main.execute("Paris");
+
+            main.execute("add");
+            main.execute("Japan");
+            main.execute("Tokyo");
+
+            main.execute("add");
+            main.execute("Great Britain");
+            main.execute("London");
+
+            output = main.execute("remove").toLowerCase();
+            if (!output.contains("which card")) {
+                return CheckResult.wrong("Your program should prompt the user for the name of the card with the message " +
+                    "\"Which card?\"");
+            }
+
+            output = main.execute("Japan").toLowerCase();
+            if (!output.contains("card has been removed")) {
+                return CheckResult.wrong("Your program should notify the user with the message " +
+                    "\"The card has been removed.\" if the card was removed successfully");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they " +
+                    "enter \"exit\"");
+            }
+
+            main.execute("remove");
+            output = main.execute("Wakanda").toLowerCase();
+            if (!output.contains("can't remove \"wakanda\"")) {
+                return CheckResult.wrong("Your program should notify the user with the message" +
+                    " \"Can't remove 'card': there is no such card.\" if the card doesn't exist");
+            }
+
+            if (!output.contains("no such card")) {
+                return CheckResult.wrong("Your program should notify the user with the message" +
+                    " \"Can't remove 'card': there is no such card.\" if the card doesn't exist");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should request an action from the user even if a card could not be" +
+                    " removed");
+            }
+
+            main.execute("remove");
+            output = main.execute("Tokyo").toLowerCase();
+            if (output.contains("card has been removed")) {
+                return CheckResult.wrong("You should not be able to remove a card by it's definition");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check "export" action
+        @DynamicTestingMethod
+        CheckResult test4() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+            boolean fileExists;
+            boolean empty;
+
+            main.execute("add");
+            main.execute("Japan");
+            main.execute("Tokyo");
+
+            main.execute("add");
+            main.execute("France");
+            main.execute("Paris");
+
+            output = main.execute("export").toLowerCase();
+            if (!output.contains("file name")) {
+                return CheckResult.wrong("Your program should prompt the user for the name of the file with the message " +
+                    "\"File name:\"");
+            }
+
+            output = main.execute(capitalsFile).toLowerCase();
+            if (!output.contains("2 cards")) {
+                return CheckResult.wrong("Wrong number of cards were exported. Expected 2");
+            }
+
+            if (!output.contains("saved")) {
+                return CheckResult.wrong("Your program should notify the user if the cards were exported with the message " +
+                    "\"n cards have been saved.\" where \"n\" is the number of cards exported");
+            }
+
+            fileExists = checkFileExistence(capitalsFile);
+            if (!fileExists) {
+                return CheckResult.wrong("Your program did not save a file after exporting");
+            }
+
+            empty = isEmpty(capitalsFile);
+            if (empty) {
+                return CheckResult.wrong("The file your program saves is empty");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they " +
+                    "enter \"exit\"");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //saves file for the next test
+        @DynamicTestingMethod
+        CheckResult test5() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            boolean fileExists;
+            boolean empty;
+
+            for (int i = 0; i < listOfCountries.size(); i++) {
+                main.execute("add");
+                main.execute(listOfCountries.get(i));
+                main.execute(listOfCapitals.get(i));
+            }
+
+            main.execute("export");
+            output = main.execute(capitalsNewFile).toLowerCase();
+            if (!output.contains("6 cards")) {
+                return CheckResult.wrong("Wrong number of cards were exported. Expected 6");
+            }
+
+            if (!output.contains("saved")) {
+                return CheckResult.wrong("Your program should notify the user if the cards were exported with the message" +
+                    " \"n cards have been saved.\" where \"n\" is the number of cards exported");
+            }
+
+            fileExists = checkFileExistence(capitalsNewFile);
+            if (!fileExists) {
+                return CheckResult.wrong("Your program did not save a file after exporting");
+            }
+
+            empty = isEmpty(capitalsNewFile);
+            if (empty) {
+                return CheckResult.wrong("The file your program saves is empty");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check "import" action
+        @DynamicTestingMethod
+        CheckResult test6() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+            boolean fileExists;
+            boolean empty;
+
+            output = main.execute("import").toLowerCase();
+            if (!output.contains("file name")) {
+                return CheckResult.wrong("Your program should prompt the user for the name of the file with the message " +
+                    "\"File name:\"");
+            }
+
+            String nonExistentFile = "ghost_file.txt";
+            output = main.execute(nonExistentFile).toLowerCase();
+            if (!output.contains("not found")) {
+                return CheckResult.wrong("Your program should notify the user if the file does not exist with the message" +
+                    " \"File not found.\"");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they " +
+                    "enter \"exit\"");
+            }
+
+            main.execute("import");
+            output = main.execute(capitalsFile).toLowerCase();
+            if (output.contains("not found")) {
+                return CheckResult.wrong("You should be able to import a file that you previously saved.");
+            }
+
+            if (!output.contains("2 cards")) {
+                return CheckResult.wrong("Wrong number of cards were imported. Expected 2");
+            }
+
+            if (!output.contains("been loaded")) {
+                return CheckResult.wrong("Your program should notify the user if the cards were imported with the message" +
+                    " \"n cards have been loaded.\" where \"n\" is the number of cards in the file");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they " +
+                    "enter \"exit\"");
+            }
+
+            main.execute("remove");
+            output = main.execute("Japan").toLowerCase();
+            if (!output.contains("card has been removed")) {
+                return CheckResult.wrong("You should be able to remove a card that you imported from a file");
+            }
+
+            main.execute("export");
+            output = main.execute(capitalsFile).toLowerCase();
+            if (!output.contains("1 card")) {
+                return CheckResult.wrong("Wrong number of cards were exported. Expected 1");
+            }
+
+            main.execute("import");
+            output = main.execute(capitalsNewFile).toLowerCase();
+            if (!output.contains("6 cards")) {
+                return CheckResult.wrong("Wrong number of cards were imported. Expected 6");
+            }
+
+            main.execute("export");
+            output = main.execute(capitalsNewFile).toLowerCase();
+            if (!output.contains("7 cards")) {
+                return CheckResult.wrong("Wrong number of cards were exported. Expected 7");
+            }
+
+            fileExists = checkFileExistence(capitalsNewFile);
+            if (!fileExists) {
+                return CheckResult.wrong("Your program did not save a file after exporting");
+            }
+
+            empty = isEmpty(capitalsNewFile);
+            if (empty) {
+                return CheckResult.wrong("The file your program saves is empty");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check "ask" action
+        @DynamicTestingMethod
+        CheckResult test7() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+
+            main.execute("add");
+            main.execute("France");
+            main.execute("Eiffel Tower");
+
+            main.execute("import");
+            output = main.execute(capitalsFile).toLowerCase();
+            if (!output.contains("1 card")) {
+                return CheckResult.wrong("Wrong number of cards were imported. Expected 1");
+            }
+
+            if (!output.contains("been loaded")) {
+                return CheckResult.wrong("Your program should notify the user if the cards were imported with the message" +
+                    " \"n cards have been loaded.\" where \"n\" is the number of cards in the file");
+            }
+
+            output = main.execute("ask").toLowerCase();
+            if (!output.contains("times")) {
+                return CheckResult.wrong("Your program should prompt the user for the number of cards they want to be " +
+                    "asked about with the message \"How many times to ask?\"");
+            }
+
+
+            output = main.execute("1").toLowerCase();
+            if (!output.contains("\"france\"")) {
+                return CheckResult.wrong("Your program should print the definition requested for in quotes");
+            }
+
+            if (!output.contains("definition")) {
+                return CheckResult.wrong("Your program should prompt the user for the definition of a card with the " +
+                    "message \" Print the definition of \"term\": where \"term\" is the term of the flashcard to be " +
+                    "checked");
+            }
+
+            output = main.execute("Eiffel Tower").toLowerCase();
+            if (output.equals("correct!")) {
+                return CheckResult.wrong("If the program's memory already has a card that is also contained in the file " +
+                    "imported, then the definition of the card from the file should overwrite the one in the " +
+                    "program's memory");
+            }
+
+            if (!output.contains("wrong. the right answer is \"paris\"")) {
+                return CheckResult.wrong("Your program should print \"Wrong\" followed by the correct definition in quotes" +
+                    " if the user inputs the wrong definition");
+            }
+
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should request an action from the user if there are no more cards " +
+                    "to ask");
+            }
+
+            main.execute("ask");
+            main.execute("1");
+            output = main.execute("Paris").toLowerCase();
+            lines = output.split("\n");
+
+            if (!lines[0].equals("correct!")) {
+                return CheckResult.wrong("Your program should print \"Correct!\" if the user inputs the correct " +
+                    "definition");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test8() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            int index;
+            String output;
+            String term;
+            String lastLine;
+            String[] lines;
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                main.execute("add");
+                main.execute(listOfTerms.get(i));
+                main.execute(listOfDefinitions.get(i));
+            }
+
+            main.execute("ask");
+            output = main.execute("6").toLowerCase();
+            term = getTerm(output);
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                index = listOfTerms.indexOf(term);
+
+                if (index == -1) {
+                    return CheckResult.wrong("The card \"" + term + "\" wasn't added, but you ask to enter its definition!");
+                }
+
+                output = main.execute(listOfDefinitions.get(index)).toLowerCase();
+                lines = output.split("\n");
+                lastLine = lines[lines.length - 1];
+
+                if (!lines[0].equals("correct!")) {
+                    return CheckResult.wrong("Your program should print \"Correct!\" if the user inputs the correct" +
+                        " definition");
+                }
+
+                if (i == listOfTerms.size() - 1) {
+
+                    if (!lastLine.contains("input the action")) {
+                        return CheckResult.wrong("Your program should request an action from the user if there are no more cards " +
+                            "to ask");
+                    }
+                } else {
+                    term = getTerm(lastLine);
+                }
+
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test9() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            int index;
+            String output;
+            String term;
+            String lastLine;
+            String[] lines;
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                main.execute("add");
+                main.execute(listOfTerms.get(i));
+                main.execute(listOfDefinitions.get(i));
+            }
+
+            main.execute("ask");
+            output = main.execute("6").toLowerCase();
+            term = getTerm(output);
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                index = listOfTerms.indexOf(term);
+
+                if (index == -1) {
+                    return CheckResult.wrong("The card \"" + term + "\" wasn't added, but you ask to enter its definition!");
+                }
+
+                output = main.execute(listOfAddedDefinitions.get(index)).toLowerCase();
+                lines = output.split("\n");
+                lastLine = lines[lines.length - 1];
+
+                if (!lines[0].contains("wrong. the right answer is \"" + listOfDefinitions.get(index) + "\"")) {
+                    return CheckResult.wrong("Your program should print \"Wrong\" followed by the correct definition" +
+                        " in quotes if the user inputs the wrong definition");
+                }
+
+                if (i == listOfTerms.size() - 1) {
+
+                    if (!lastLine.contains("input the action")) {
+                        return CheckResult.wrong("Your program should request an action from the user if there are no more cards " +
+                            "to ask");
+                    }
+                } else {
+                    term = getTerm(lastLine);
+                }
+
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test10() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            int wrongIndex;
+            int index;
+            String output;
+            String term;
+            String lastLine;
+            String[] lines;
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                main.execute("add");
+                main.execute(listOfTerms.get(i));
+                main.execute(listOfDefinitions.get(i));
+            }
+
+            main.execute("ask");
+            output = main.execute("6").toLowerCase();
+            term = getTerm(output);
+
+            for (int i = 0; i < listOfTerms.size(); i++) {
+                index = listOfTerms.indexOf(term);
+
+                if (index == -1) {
+                    return CheckResult.wrong("The card \"" + term + "\" wasn't added, but you ask to enter its definition!");
+                }
+
+                wrongIndex = index == listOfDefinitions.size() - 1 ? index - 1 : index + 1;
+
+                output = main.execute(listOfDefinitions.get(wrongIndex)).toLowerCase();
+                lines = output.split("\n");
+                lastLine = lines[lines.length - 1];
+
+                if (!lines[0].contains("wrong. the right answer is \"" + listOfDefinitions.get(index) + "\"")) {
+                    return CheckResult.wrong("Your program should print \"Wrong\" followed by the correct definition" +
+                        " in quotes if the user inputs the wrong definition");
+                }
+
+                if (!lines[0].contains("correct for \"" + listOfTerms.get(wrongIndex) + "\"")) {
+                    return CheckResult.wrong("Your output should also contain \"but your definition is correct for 'term'" +
+                        " \"");
+                }
+
+                if (i == listOfTerms.size() - 1) {
+
+                    if (!lastLine.contains("input the action")) {
+                        return CheckResult.wrong("Your program should request an action from the user if there are no more cards " +
+                            "to ask");
+                    }
+                } else {
+                    term = getTerm(lastLine);
+                }
+
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check the "hardest card" action
+        @DynamicTestingMethod
+        CheckResult test11() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+            String lastLine;
+            String[] lines;
+
+            output = main.execute("hardest card").toLowerCase();
+            lines = output.split("\n");
+            lastLine = lines[lines.length - 1];
+
+            if (!output.contains("no cards with errors")) {
+                return CheckResult.wrong("Your program should print \"There are no cards with errors.\" if there are no " +
+                    "cards with errors");
+            }
+
+            if (!lastLine.contains("input the action")) {
+                return CheckResult.wrong("Your program should continue to request an action from the user until they enter" +
+                    " \"exit\"");
+            }
+
+            main.execute("add");
+            main.execute("France");
+            main.execute("Paris");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Eiffel Tower");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Lyon");
+
+            output = main.execute("hardest card").toLowerCase();
+            if (!output.contains("the hardest card is")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (!output.contains("errors answering it")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (!output.contains("\"france\"")) {
+                return CheckResult.wrong("Your program should print the hardest card in quotes");
+            }
+
+            if (!output.contains("2")) {
+                return CheckResult.wrong("Your program shows wrong number of errors. Expected 2");
+            }
+
+            main.execute("export");
+            main.execute(capitalsFile);
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test12() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+
+            main.execute("add");
+            main.execute("Russia");
+            main.execute("Moscow");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Saint Petersburg");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Saint Petersburg");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Saint Petersburg");
+
+            output = main.execute("hardest card").toLowerCase();
+            if (!output.contains("the hardest card is")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (!output.contains("errors answering it")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (!output.contains("\"russia\"")) {
+                return CheckResult.wrong("Your program should print the hardest card in quotes");
+            }
+
+            if (!output.contains("3")) {
+                return CheckResult.wrong("Your program shows wrong number of errors. Expected 3");
+            }
+
+            main.execute("export");
+            main.execute(capitalsNewFile);
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test13() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+
+            main.execute("import");
+            main.execute(capitalsFile);
+
+            main.execute("import");
+            main.execute(capitalsNewFile);
+
+            output = main.execute("hardest card").toLowerCase();
+            if (output.contains("no cards with errors")) {
+                return CheckResult.wrong("Your program should print the hardest card(s) if such card(s) exists");
+            }
+
+            if (!output.contains("the hardest card is")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (!output.contains("errors answering it")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest card is \"card\". You have n errors answering it.\"");
+            }
+
+            if (output.contains("france")) {
+                return CheckResult.wrong("Your program printed the wrong card");
+            }
+
+            if (!output.contains("\"russia\"")) {
+                return CheckResult.wrong("Your program should print the hardest card in quotes");
+            }
+
+            if (!output.contains("3")) {
+                return CheckResult.wrong("Your program shows wrong number of errors. Expected 3");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        @DynamicTestingMethod
+        CheckResult test14() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+
+            main.execute("import");
+            main.execute(capitalsFile);
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Lyon");
+
+            main.execute("import");
+            main.execute(capitalsNewFile);
+
+            output = main.execute("hardest card").toLowerCase();
+            if (output.contains("no cards with errors")) {
+                return CheckResult.wrong("Your program should print the hardest card(s) if such card(s) exists");
+            }
+
+            if (!output.contains("hardest cards are")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format" +
+                    " \"The hardest cards are \"card#1\", \"card#2\"...\"card#n\". You have n errors answering them" +
+                    ".\"");
+            }
+
+            if (!output.contains("errors answering them")) {
+                return CheckResult.wrong("Your program should show the user the hardest card(s) in the format \"The " +
+                    "hardest cards are \"card#1\", \"card#2\"...\"card#n\". You have n errors answering them\".");
+            }
+
+            if (!output.contains("france")) {
+                return CheckResult.wrong("Your program should print all the cards with the highest number of errors");
+            }
+
+            if (!output.contains("russia")) {
+                return CheckResult.wrong("Your program should print all the cards with the highest number of errors");
+            }
+
+            if (!output.contains("\"france\"")) {
+                return CheckResult.wrong("Your program should print the hardest card(s) in quotes");
+            }
+
+            if (!output.contains("\"russia\"")) {
+                return CheckResult.wrong("Your program should print the hardest card(s) in quotes");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check the "reset stats" action
+        @DynamicTestingMethod
+        CheckResult test15() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+
+            main.execute("hardest card");
+
+            main.execute("import");
+            main.execute(capitalsFile);
+
+            main.execute("hardest card");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Tokyo");
+
+            main.execute("hardest card");
+
+            main.execute("import");
+            main.execute(capitalsNewFile);
+
+            output = main.execute("reset stats").toLowerCase();
+            if (!output.contains("statistics have been reset")) {
+                return CheckResult.wrong("Your program should notify the user if the stats have been reset with the " +
+                    "message \"Card statistics have been reset.\"");
+            }
+
+            output = main.execute("hardest card").toLowerCase();
+            if (!output.contains("no cards with errors")) {
+                return CheckResult.wrong("Your program should reset the errors of all the cards back to zero");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test to check the "log" action
+        @DynamicTestingMethod
+        CheckResult test16() {
+            TestedProgram main = new TestedProgram(MainKt.class);
+            main.start();
+
+            String output;
+
+            main.execute("hardest card");
+
+            main.execute("import");
+            main.execute(capitalsFile);
+
+            main.execute("hardest card");
+
+            main.execute("ask");
+            main.execute("1");
+            main.execute("Tokyo");
+
+            main.execute("hardest card");
+
+            output = main.execute("reset stats").toLowerCase();
+            if (!output.contains("statistics have been reset")) {
+                return CheckResult.wrong("Your program should notify the user if the stats have been reset with the " +
+                    "message \"Card statistics have been reset.\"");
+            }
+
+            output = main.execute("hardest card").toLowerCase();
+            if (!output.contains("no cards with errors")) {
+                return CheckResult.wrong("Your program should reset the errors of all the cards back to zero");
+            }
+
+            output = main.execute("log").toLowerCase();
+            if (!output.contains("file name")) {
+                return CheckResult.wrong("Your program should prompt the user for the name of the file to be saved with " +
+                    "the message \"File name:\"");
+            }
+
+            output = main.execute("todayLog.txt").toLowerCase();
+            if (!output.contains("log has been saved")) {
+                return CheckResult.wrong("Your program should notify the user if the log file was saved with the message" +
+                    " \"The log has been saved.\"");
+            }
+
+            boolean fileExists = checkFileExistence("todayLog.txt");
+            if (!fileExists) {
+                return CheckResult.wrong("Your program did not save the log file");
+            }
+
+            boolean validContent = checkLogFileLength("todayLog.txt");
+            if (!validContent) {
+                return CheckResult.wrong("The number of lines your program saves is less than the number of lines that " +
+                    "was input/output to the console");
+            }
+
+            output = main.execute("exit").toLowerCase();
+            if (!output.contains("bye")) {
+                return CheckResult.wrong("Your program should print \"Bye bye!\" and terminate if the user enters " +
+                    "\"exit\"");
+            }
+
+            if (!main.isFinished()) {
+                return CheckResult.wrong("Your program should terminate if the user enters \"exit\"");
+            }
+
+            return CheckResult.correct();
+        }
+
+        private boolean checkLogFileLength(String fileName) {
+            int lineCount = 0;
+            int minimumLineExpected = 30;
+
+            File file = new File(fileName);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.isEmpty())
+                        lineCount++;
+                }
+            } catch (IOException ignored) {}
+
+            return minimumLineExpected < lineCount;
+        }
+
+        private boolean checkFileExistence(String fileName) {
+            File file = new File(fileName);
+            return file.exists();
+        }
+
+        private boolean isEmpty(String fileName) {
+            int lineCount = 0;
+
+            File file = new File(fileName);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+
+                while (reader.readLine() != null) {
+                    lineCount++;
+                }
+            } catch (IOException e) {
+            }
+
+            return lineCount <= 0;
+        }
+
+        private String getTerm(String output) {
+            int start = output.indexOf("\"");
+            int end = output.lastIndexOf("\"");
+
+            if (start == -1 || end == -1) {
+                throw new WrongAnswer("The card should be surrounded with \"\" when you ask to print its definition!\n" +
+                    "For example: Print the definition of \"str()\"");
+            }
+
+            return output.substring((start + 1), end);
+        }
+
+        private static List<String> getListOfTerms() {
+            return Arrays.asList(
+                "print()",
+                "str()",
+                "son",
+                "daughter",
+                "uncle",
+                "ankle");
+        }
+
+        private static List<String> getListOfDefinitions() {
+            return Arrays.asList(
+                "outputs text",
+                "converts to a string",
+                "a male child",
+                "a female child",
+                "a brother of one's parent",
+                "a part of the body where the foot and the leg meet"
+            );
+        }
+
+        //Extra wrongs invalidate the definition
+        private static List<String> getListOfWrongDefinitions1() {
+            return Arrays.asList(
+                "outputs text line by line",
+                "converts to a string and an integer",
+                "a male child or a female child",
+                "a female child or a male child",
+                "a brother of one's parent or grandparents",
+                "a part of the body where the foot and the leg meet or the arm"
+            );
+        }
+
+        private static List<String> getListOfCountries() {
+            return Arrays.asList(
+                "Canada",
+                "Netherlands",
+                "Russia",
+                "United Kingdom",
+                "Nigeria",
+                "Germany"
+            );
+        }
+
+        private static List<String> getListOfCapitals() {
+            return Arrays.asList(
+                "Ottawa",
+                "Amsterdam",
+                "Moscow",
+                "London",
+                "Abuja",
+                "Berlin"
+            );
+        }
+
+    }
+
+
+
+
   learner_created: false
 - name: test/DialogClue.kt
   visible: false
-  text: |
-    import org.hyperskill.hstest.testcase.CheckResult
-    import org.hyperskill.hstest.testcase.TestCase
-
-
-    // ---- DialogClue ----
-
-    /** May be several lines or just one. */
-    interface Phrase {
-        fun toPhraseLines(): List<PhraseLine>
-    }
-
-    /** list of input and output lines, combined together. */
-    fun compositePhrase(block: () -> List<Phrase>) = object : Phrase {
-        override fun toPhraseLines() = block().flatMap { it.toPhraseLines() }
-    }
-
-    fun compositePhrase(vararg phrases: Phrase) = object : Phrase {
-        override fun toPhraseLines() = phrases.flatMap { it.toPhraseLines() }
-    }
-
-    /** Either user (input) or output phrase. Each phrase should be a line. */
-    sealed class PhraseLine : Phrase {
-        override fun toPhraseLines() = listOf(this)
-    }
-
-    /** Some mutable data, that is passed across dialog phrases. */
-    class Context {
-        val rawData = mutableMapOf<String, Any>()
-    }
-
-    class UserLine(val text: String, val updateContext: CtxUpdate = {}) : PhraseLine() {
-
-    }
-    typealias CtxUpdate = (ctx: Context) -> Unit
-
-    class OutputLine(val checker: (text: String, ctx: Context) -> CheckResult) : PhraseLine()
-
-    /** This function creates a line with user input (our test input).
-     *
-     * Unfortunately we can't access the Context, when we adding user text.
-     * This occurs because of HS test framework limitations:
-     * we need to pass all inputs first, and then start checking outputs. */
-    fun user(text: String, updateContext: (ctx: Context) -> Unit = {}) = UserLine(text, updateContext)
-
-    fun anyLine(updateContext: CtxUpdate = {}) = OutputLine { _, ctx -> CheckResult.correct().also { updateContext(ctx) } }
-
-    fun containing(
-            vararg parts: String,
-            ignoreCase: Boolean = true,
-            hint: String? = null,
-            updateContext: CtxUpdate = {}
-    ) = OutputLine { line, context ->
-        fun buildFeedback(): String {
-            val feedback = StringBuilder()
-            feedback.append("Your line\n`$line`\nshould contain ${parts.joinToString("`, `", "`", "`")}")
-            if (ignoreCase) {
-                feedback.append(" (ignoring case)")
-            }
-            feedback.append(".")
-            if (hint != null) {
-                feedback.append("\n$hint")
-            }
-            return feedback.toString()
-        }
-
-        var startIndex = 0
-        for (part in parts) {
-            startIndex = line.indexOf(part, startIndex, ignoreCase)
-            if (startIndex == -1) {
-                return@OutputLine CheckResult.wrong(buildFeedback())
-            }
-        }
-        updateContext(context) // everything is correct, update context
-        CheckResult.correct();
-    }
-
-    class DialogClue(private val phrases: List<PhraseLine>) {
-
-        private val inputPhrases = phrases.filter { it is UserLine }.map { it as UserLine }
-        private val outputPhrases = phrases.filter { it is OutputLine }.map { it as OutputLine }
-
-        fun generateInput() = inputPhrases
-                .joinToString("\n", postfix = "\n") { it.text }
-
-        fun checkOutput(output: String): CheckResult {
-            val lines = output.lines()
-                    .filter { it.isNotBlank() }
-
-            fun wrongOutputSizeFeedback() = CheckResult.wrong("The number of lines in your output is ${lines.size}, " +
-                    "but it should be ${outputPhrases.size}. " +
-                    "Check, that you output your lines with println, not print. And there are no extra outputs.")
-
-    // here we store some mutable data from phrase to phrase
-            val context = Context()
-
-            val lineIter = lines.listIterator()
-            phrases.forEach { phraseLine ->
-                when (phraseLine) {
-                    is UserLine -> phraseLine.updateContext(context)
-                    is OutputLine -> {
-                        if (!lineIter.hasNext()) {
-                            return wrongOutputSizeFeedback()
-                        }
-                        val result = phraseLine.checker(lineIter.next(), context)
-                        if (!result.isCorrect) {
-                            return CheckResult.wrong(result.feedback)
-                        }
-                    }
-                }
-            }
-
-            if (lineIter.hasNext()) {
-                return wrongOutputSizeFeedback()
-            }
-
-            return CheckResult.correct()
-        }
-    }
-
-    fun dialogTest(vararg phrases: Phrase): TestCase<DialogClue> {
-        val dialogClue = DialogClue(phrases.flatMap { it.toPhraseLines() })
-        return TestCase<DialogClue>()
-                .setInput(dialogClue.generateInput())
-                .setAttach(dialogClue)
-    }
   learner_created: false
 - name: test/FlashcardsStage6Test.kt
   visible: false
-  text: |2
-
-    import org.hyperskill.hstest.testcase.CheckResult
-    import org.hyperskill.hstest.testcase.TestCase
-    import java.io.File
-
-    class FlashcardsStage6Test : FlashcardsTest<DialogClue>() {
-
-        override fun generate(): List<TestCase<DialogClue>> {
-            File("capitals.txt").delete()
-            File("testLog.txt").delete()
-            val tests = mutableListOf<TestCase<DialogClue>>()
-
-            val capitalList = mutableListOf<Pair<String, String>>()
-            fun capitals() = capitalList.toTypedArray()
-
-            // wrappers for add/remove card, but saving cards to capitalList:
-            fun addCapital(card: String, def: String) = addCard(card, def)
-                    .also { capitalList += card to def }
-
-            fun removeCapital(card: String) = removeCard(card)
-                    .also { capitalList.removeIf { it.first == card } }
-
-            // clear files
-            tests += dialogTest(
-                    exportCards("capitals.txt", 0),
-                    exit()
-            )
-            tests += dialogTest(
-                    hardestCards(),
-                    addCapital("France", "Paris"),
-                    askCards("France", "??"),
-                    hardestCards(),// wrong cards for test are updated in the previous line
-                    resetStats(),
-                    hardestCards(),
-                    addCapital("Russia", "Moscow"),
-                    askCards("??", "??"),
-                    hardestCards(),
-                    askCards("??", "??"),
-                    hardestCards(),
-                    askCards("??", "??"),
-                    hardestCards(),
-                    askCards("??", "??"),
-                    hardestCards(),
-                    askCards("??", "??", saveWrongAnsweredCapitals = true),
-                    hardestCards(),
-                    exportCards("capitals.txt", 2),
-                    log("testLog.txt"),
-                    exit()
-            )
-            tests += dialogTest(
-                    hardestCards(),
-                    addCard("France", "UpdateMeFromImport"),
-                    askCards("??", "??"),
-                    importCards("capitals.txt", *capitals()),
-                    hardestCards(wrongAnsweredCapitals), // restored from the previous test
-                    removeCapital("France"),
-                    removeCapital("Russia"),
-                    hardestCards(), // empty
-                    exit()
-            )
-            return tests
-        }
-
-        override fun check(reply: String, clue: DialogClue): CheckResult {
-            return clue.checkOutput(reply)
-        }
-
-
-        // ------ extensions for building a dialog: ------
-
-        fun inputAction(action: String) = compositePhrase {
-            listOf(containing("action", hint = "This line should ask the action."), user(action))
-        }
-
-        inner class LogPhrase(val fileName: String) : Phrase {
-            override fun toPhraseLines() = compositePhrase(
-                    inputAction("log"),
-                    anyLine(),
-                    user(fileName),
-                    OutputLine { text, ctx ->
-                        val result = containing("saved", hint = "This line should indicate, that the log has been saved.").checker(text, ctx)
-                        if (!result.isCorrect) {
-                            return@OutputLine result
-                        }
-                        if (!File(fileName).exists()) {
-                            return@OutputLine CheckResult.wrong("The log file $fileName does not exist.")
-                        }
-                        CheckResult.correct();
-                    }
-            ).toPhraseLines()
-        }
-
-        private fun log(fileName: String) = LogPhrase(fileName)
-
-        private fun resetStats() = compositePhrase(
-                inputAction("reset stats"), containing("reset", hint = "This line should confirm card statistics reset.",
-                updateContext = { ctx -> ctx.wrongCards.clear() })
-        )
-
-        /** Between tests we cache wrong answered capitals to check hardest cards, when we restore them from file. */
-        private val wrongAnsweredCapitals: MutableList<String> = mutableListOf()
-
-        /** [customWrongCards] are used to load saved wrong cards from the previous test. */
-        fun hardestCards(customWrongCards: List<String>? = null) = compositePhrase(
-                inputAction("hardest card"),
-                OutputLine { text, ctx ->
-                    if (customWrongCards != null) {
-                        ctx.wrongCards.clear()
-                        ctx.wrongCards.addAll(customWrongCards)
-                    }
-                    val groupedCards = ctx.wrongCards
-                            .groupBy { it }.mapValues { (_, v) -> v.size }
-                    val maxMistakes = groupedCards.values.max() ?: 0
-                    val hardestCards = groupedCards.filterValues { it == maxMistakes }.keys.toList()
-
-                    when (hardestCards.size) {
-                        0 -> return@OutputLine containing("There are no cards with errors").checker(text, ctx)
-                        1 -> return@OutputLine containing("The hardest card is \"${hardestCards[0]}\"",
-                                "$maxMistakes").checker(text, ctx)
-                        else -> {
-                            hardestCards.forEach { card ->
-                                if (card !in text) {
-                                    return@OutputLine CheckResult.wrong("Your line `$text`\n" +
-                                            "should contain the hardest cards " +
-                                            "${hardestCards.joinToString("\", \"", "\"", "\"")} with $maxMistakes mistakes.")
-                                }
-                            }
-                            val numberOfHardestCards = text.count { it == '"' }
-                            if (numberOfHardestCards != hardestCards.size * 2) {
-                                return@OutputLine CheckResult.wrong("Your line `$text`\n" +
-                                        "contains more hardest cards, than expected. Expected: $hardestCards.")
-                            }
-                            if (maxMistakes.toString() !in text) {
-                                if (numberOfHardestCards != hardestCards.size) {
-                                    return@OutputLine CheckResult.wrong("Your line `$text`\n" +
-                                            "should contain $maxMistakes mistakes for your hardest cards.")
-                                }
-                            }
-                        }
-                    }
-                    CheckResult.correct();
-                }
-        )
-
-
-        // extend dialog context with our own data:
-
-        @Suppress("UNCHECKED_CAST")
-        private val Context.cardToDef
-            get() = rawData.getOrPut("cardToDef") { mutableMapOf<String, String>() } as MutableMap<String, String>
-
-        @Suppress("UNCHECKED_CAST")
-        /** All cards, that were answered wrong. */
-        private val Context.wrongCards
-            get() = rawData.getOrPut("wrongCards") { mutableListOf<String>() } as MutableList<String>
-
-
-        @Suppress("UNCHECKED_CAST")
-        private val Context.defToCard
-            get() = rawData.getOrPut("defToCard") { mutableMapOf<String, String>() } as MutableMap<String, String>
-
-        private fun Context.addCard(card: String, definition: String) {
-            cardToDef[card] = definition
-            defToCard[definition] = card
-        }
-
-        private fun Context.removeCard(card: String) {
-            val def = cardToDef.remove(card)
-            if (def != null) {
-                defToCard.remove(def)
-            }
-        }
-
-
-        private fun addCard(card: String, def: String) = compositePhrase(
-                inputAction("add"),
-                anyLine(), user(card),
-                anyLine(), user(def),
-                containing("has been added",
-                        hint = "This line should add the pair (\"$card\":\"$def\").",
-                        updateContext = { ctx -> ctx.addCard(card, def) })
-        )
-
-
-        private fun existingDef(card: String, def: String) = compositePhrase(
-                inputAction("add"),
-                anyLine(), user(card),
-                anyLine(), user(def),
-                containing("definition", "exists", hint = "This line should reject the existing definition `$def`.")
-        )
-
-
-        private fun existingCard(card: String) = compositePhrase(
-                inputAction("add"),
-                anyLine(), user(card),
-                containing("card", "exists", hint = "This line should reject the existing card `$card`.")
-        )
-
-        private fun removeCard(card: String) = compositePhrase(
-                inputAction("remove"),
-                anyLine(), user(card),
-                containing("has been removed", hint = "This line should remove the card `$card`.",
-                        updateContext = { ctx ->
-                            ctx.removeCard(card)
-                            ctx.wrongCards.removeAll(listOf(card))
-                        })
-        )
-
-        private fun removeNonExisting(card: String) = compositePhrase(
-                inputAction("remove"),
-                anyLine(), user(card),
-                containing("Can't remove \"$card\"", hint = "This line should reject removing non existing card `$card`.")
-        )
-
-
-        private fun importCards(fileName: String, vararg cards: Pair<String, String>) = compositePhrase(
-                inputAction("import"),
-                anyLine(), user(fileName),
-                containing("${cards.size} cards have been loaded",
-                        updateContext = { ctx ->
-                            val cardToDef = ctx.cardToDef
-                            val defToCard = ctx.defToCard
-                            cards.forEach { (card, def) ->
-                                if (card in cardToDef) {
-                                    defToCard.remove(cardToDef[card]) // erase wrong reverse link
-                                }
-                                ctx.addCard(card, def) // with update!!
-                            }
-                        })
-        )
-
-        private fun importNonExisting(fileName: String) = compositePhrase(
-                inputAction("import"),
-                anyLine(), user(fileName),
-                containing("not found", hint = "This line should say, that the file $fileName does not exist.")
-        )
-
-        private fun exportCards(fileName: String, cardsSize: Int) = compositePhrase(
-                inputAction("export"),
-                anyLine(), user(fileName),
-                containing("$cardsSize cards have been saved")
-        )
-
-        private fun exit() = compositePhrase(
-                inputAction("exit"),
-                anyLine()
-        )
-
-        /** Perform ask action. [ansDefs] are our test answers with definitions.
-         * We don't know are they wrong or correct, because the test is random. */
-        private fun askCards(vararg ansDefs: String, saveWrongAnsweredCapitals: Boolean = false) = compositePhrase {
-            val startPhrases = listOf(
-                    inputAction("ask"),
-                    anyLine(), user(ansDefs.size.toString())
-            )
-            // here we add the dialog logic, by creating base OutputLine class with a custom checker
-            // we use context to connect with neighbor checkers
-
-            // iterate test answered definitions:
-            val repeatingPhrases = ansDefs.map { ansDef ->
-                compositePhrase(
-                        OutputLine { text, ctx ->
-                            val askedCard = text.dropWhile { it != '"' }.dropLastWhile { it != '"' }.trim('"')
-                            if (askedCard.isEmpty()) {
-                                return@OutputLine CheckResult.wrong("Not found card in quotes. " +
-                                        "This line should ask the definition of a random card.")
-                            }
-                            if (askedCard !in ctx.cardToDef) {
-                                return@OutputLine CheckResult.wrong("You asked the definition of the non existing card: `$askedCard`.")
-                            }
-                            ctx.rawData["lastAskedCard"] = askedCard
-                            CheckResult.correct();
-                        },
-                        // unfortunately we can't access the Context in user action, see documentation of user()
-                        user(ansDef),
-                        // check the answer:
-                        OutputLine { text, ctx ->
-                            val askedCard = ctx.rawData["lastAskedCard"]?.toString()
-                                    ?: throw IllegalStateException("Not found lastAskedCard in the `ask` checker.")
-                            val cardToDef = ctx.cardToDef
-                            val defToCard = ctx.defToCard
-                            val rightAns = cardToDef[askedCard]
-
-                            val hint = "The asked card was `$askedCard`, the answer was `$ansDef`."
-                            if (cardToDef[askedCard] == ansDef)
-                                containing("Correct", hint = hint).checker(text, ctx)
-                            else {
-                                ctx.wrongCards += askedCard
-
-                                val isDefFor = defToCard[ansDef]
-                                if (isDefFor != null) {
-                                    containing("Wrong", "The right answer is \"$rightAns\"",
-                                            "but your definition is correct for \"$isDefFor\"", hint = hint).checker(text, ctx)
-                                } else {
-                                    // should not contain definition hint!!
-                                    if (text.contains("but your definition is correct for")) {
-                                        CheckResult.wrong("Your line\n`$text`\nshould NOT contain " +
-                                                "`but your definition is correct for`.\n$hint")
-                                    } else {
-                                        containing("Wrong", "The right answer is \"$rightAns\"", hint = hint).checker(text, ctx)
-                                    }
-
-                                }
-                            }.also {
-                                // only for these tests. To test restoring wrong capitals from file.
-                                if (saveWrongAnsweredCapitals) {
-                                    wrongAnsweredCapitals.clear()
-                                    wrongAnsweredCapitals.addAll(ctx.wrongCards)
-                                }
-                            }
-                        }
-                )
-            }
-            (startPhrases + repeatingPhrases)
-        }
-    }
   learner_created: false
 feedback_link: https://hyperskill.org/projects/83/stages/462/implement
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Thu, 14 Jan 2021 21:45:58 UTC
+record: 6

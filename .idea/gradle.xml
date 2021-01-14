@@ -8,7 +8,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_INTERNAL" />
+        <option name="gradleJvm" value="15" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -16,7 +16,6 @@
             <option value="$PROJECT_DIR$/Problems/Add them all" />
             <option value="$PROJECT_DIR$/Problems/Area printer" />
             <option value="$PROJECT_DIR$/Problems/Banana_" />
-            <option value="$PROJECT_DIR$/Problems/Cause an exception" />
             <option value="$PROJECT_DIR$/Problems/Cell" />
             <option value="$PROJECT_DIR$/Problems/Closed case" />
             <option value="$PROJECT_DIR$/Problems/Complex numbers" />

@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/263287/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 12 Jan 2021 00:06:51 UTC
+update_date: Thu, 14 Jan 2021 21:45:14 UTC
 stages:
 - id: 457
   step: 7486
@@ -22,7 +22,7 @@ stages:
   is_completed: true
 - id: 462
   step: 7491
-  is_completed: false
+  is_completed: true
 - id: 463
   step: 7492
   is_completed: false
@@ -164,6 +164,12 @@ topics:
     theory_id: 4640
   - title: The main() function
     theory_id: 10484
+  - title: Nullable and non-nullable types
+    theory_id: 7613
+  - title: Null safety
+    theory_id: 7619
+  - title: Type system
+    theory_id: 9689
   - title: Declaring classes
     theory_id: 6200
   - title: Constructors
@@ -176,12 +182,6 @@ topics:
     theory_id: 7884
   - title: Secondary constructor
     theory_id: 10746
-  - title: Nullable and non-nullable types
-    theory_id: 7613
-  - title: Null safety
-    theory_id: 7619
-  - title: Type system
-    theory_id: 9689
   - title: toString()
     theory_id: 10193
   - title: Data class
