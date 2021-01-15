@@ -1,7 +1,6 @@
 content:
 - N-th symbol
 - Incorrect comments
-- Cause an exception
 - Handle string exception
 - Complex numbers
 - Handle arithmetic exception
@@ -40,3 +39,7 @@ content:
 - Remove us
 - Add them all
 - Banana_
+- Summation
+- Greeting
+- Perimeter
+- Car speed

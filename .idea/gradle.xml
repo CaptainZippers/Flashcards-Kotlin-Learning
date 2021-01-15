@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/Problems/Add them all" />
             <option value="$PROJECT_DIR$/Problems/Area printer" />
             <option value="$PROJECT_DIR$/Problems/Banana_" />
+            <option value="$PROJECT_DIR$/Problems/Car speed" />
             <option value="$PROJECT_DIR$/Problems/Cell" />
             <option value="$PROJECT_DIR$/Problems/Closed case" />
             <option value="$PROJECT_DIR$/Problems/Complex numbers" />
@@ -28,6 +29,7 @@
             <option value="$PROJECT_DIR$/Problems/Fractional part" />
             <option value="$PROJECT_DIR$/Problems/Function composition" />
             <option value="$PROJECT_DIR$/Problems/Function composition (1)" />
+            <option value="$PROJECT_DIR$/Problems/Greeting" />
             <option value="$PROJECT_DIR$/Problems/Handle arithmetic exception" />
             <option value="$PROJECT_DIR$/Problems/Handle number format exception" />
             <option value="$PROJECT_DIR$/Problems/Handle string exception" />
@@ -44,6 +46,7 @@
             <option value="$PROJECT_DIR$/Problems/Most common" />
             <option value="$PROJECT_DIR$/Problems/N-th symbol" />
             <option value="$PROJECT_DIR$/Problems/Not  predicate" />
+            <option value="$PROJECT_DIR$/Problems/Perimeter" />
             <option value="$PROJECT_DIR$/Problems/Polynomial" />
             <option value="$PROJECT_DIR$/Problems/Quadratic equation" />
             <option value="$PROJECT_DIR$/Problems/Remove us" />
@@ -51,6 +54,7 @@
             <option value="$PROJECT_DIR$/Problems/Rickrolling" />
             <option value="$PROJECT_DIR$/Problems/Sine and cosine" />
             <option value="$PROJECT_DIR$/Problems/Sum of numbers" />
+            <option value="$PROJECT_DIR$/Problems/Summation" />
             <option value="$PROJECT_DIR$/Problems/What's wrong" />
             <option value="$PROJECT_DIR$/Problems/Yet another array" />
             <option value="$PROJECT_DIR$/util" />
