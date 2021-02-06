@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/263287/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Fri, 15 Jan 2021 02:45:36 UTC
+update_date: Sat, 06 Feb 2021 22:39:45 UTC
 stages:
 - id: 457
   step: 7486
@@ -47,6 +47,8 @@ topics:
   - title: Standard output
     theory_id: 4425
   1:
+  - title: Modulo division
+    theory_id: 10586
   - title: Units of information
     theory_id: 6865
   - title: The classification of basic types
@@ -61,8 +63,6 @@ topics:
     theory_id: 4672
   - title: Reading data with a readLine
     theory_id: 11224
-  - title: Modulo division
-    theory_id: 10586
   - title: Arithmetic operations
     theory_id: 4472
   - title: Increment and decrement
@@ -80,16 +80,20 @@ topics:
   - title: If expression
     theory_id: 4625
   2:
-  - title: IDE
-    theory_id: 10996
   - title: Introduction to operating systems
     theory_id: 9704
+  - title: Objects
+    theory_id: 11233
+  - title: IDE
+    theory_id: 10996
   - title: Command line overview
     theory_id: 8977
   - title: Parameters and options
     theory_id: 9746
   - title: Ranges
     theory_id: 4633
+  - title: Equality
+    theory_id: 11236
   - title: String templates
     theory_id: 4547
   - title: Arrays
@@ -122,12 +126,8 @@ topics:
   - title: The try-catch statement
     theory_id: 10622
   4:
-  - title: Objects
-    theory_id: 11233
   - title: Floating-point types
     theory_id: 4502
-  - title: Equality
-    theory_id: 11236
   - title: The Math library
     theory_id: 4563
   - title: Functions as objects
@@ -156,8 +156,6 @@ topics:
   - title: Mutable List
     theory_id: 11032
   6:
-  - title: Introduction to OOP
-    theory_id: 3614
   - title: Default arguments
     theory_id: 4637
   - title: Named arguments
@@ -170,6 +168,8 @@ topics:
     theory_id: 7619
   - title: Type system
     theory_id: 9689
+  - title: Introduction to OOP
+    theory_id: 3614
   - title: Declaring classes
     theory_id: 6200
   - title: Constructors

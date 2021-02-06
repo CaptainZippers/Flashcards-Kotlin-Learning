@@ -1,4 +1,3 @@
-import flashcards.MainKt;
 import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
 import org.hyperskill.hstest.exception.outcomes.WrongAnswer;
 import org.hyperskill.hstest.stage.StageTest;
@@ -60,7 +59,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test1() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         
         String output = main.start().toLowerCase().trim();
         if (!output.contains("input the action")) {
@@ -84,7 +83,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check the "add" action
     @DynamicTestingMethod
     CheckResult test2() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -154,7 +153,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check the "remove" action
     @DynamicTestingMethod
     CheckResult test3() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -234,7 +233,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check "export" action
     @DynamicTestingMethod
     CheckResult test4() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -300,7 +299,7 @@ public class FlashcardsTest extends StageTest<String> {
     //saves file for the next test
     @DynamicTestingMethod
     CheckResult test5() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -350,7 +349,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check "import" action
     @DynamicTestingMethod
     CheckResult test6() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -451,7 +450,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check "ask" action
     @DynamicTestingMethod
     CheckResult test7() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -535,7 +534,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test8() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         int index;
@@ -597,7 +596,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test9() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         int index;
@@ -659,7 +658,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test10() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         int wrongIndex;
@@ -730,7 +729,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check the "hardest card" action
     @DynamicTestingMethod
     CheckResult test11() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -800,7 +799,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test12() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -858,7 +857,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test13() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -911,7 +910,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test14() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -974,7 +973,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check the "reset stats" action
     @DynamicTestingMethod
     CheckResult test15() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -1022,7 +1021,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check the "log" action
     @DynamicTestingMethod
     CheckResult test16() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start();
         
         String output;
@@ -1090,7 +1089,7 @@ public class FlashcardsTest extends StageTest<String> {
     //Test to check command line arguments"
     @DynamicTestingMethod
     CheckResult test17() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start("-export", "fridayThe13th.txt");
         
         String output;
@@ -1131,7 +1130,7 @@ public class FlashcardsTest extends StageTest<String> {
     
     @DynamicTestingMethod
     CheckResult test18() {
-        TestedProgram main = new TestedProgram(MainKt.class);
+        TestedProgram main = new TestedProgram();
         main.start("-export", "newFridayThe13th.txt", "-import", "fridayThe13th.txt");
     
         String output;

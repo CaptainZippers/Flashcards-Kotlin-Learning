@@ -12,8 +12,8 @@ files:
   learner_created: false
 - name: test/FlashcardsTest.java
   visible: false
-  text: "import flashcards.MainKt;\nimport org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;\n\
-    import org.hyperskill.hstest.exception.outcomes.WrongAnswer;\nimport org.hyperskill.hstest.stage.StageTest;\n\
+  text: "import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;\nimport\
+    \ org.hyperskill.hstest.exception.outcomes.WrongAnswer;\nimport org.hyperskill.hstest.stage.StageTest;\n\
     import org.hyperskill.hstest.testcase.CheckResult;\nimport org.hyperskill.hstest.testcase.TestCase;\n\
     import org.hyperskill.hstest.testing.TestedProgram;\nimport org.junit.AfterClass;\n\
     import org.junit.BeforeClass;\n\nimport java.io.BufferedReader;\nimport java.io.File;\n\
@@ -38,7 +38,7 @@ files:
     \        fridayFile.delete();\n    \n        File newFridayFile = new File(\"\
     newFridayThe13th.txt\");\n        //noinspection ResultOfMethodCallIgnored\n \
     \       newFridayFile.delete();\n        \n    }\n    \n    @DynamicTestingMethod\n\
-    \    CheckResult test1() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test1() {\n        TestedProgram main = new TestedProgram();\n\
     \        \n        String output = main.start().toLowerCase().trim();\n      \
     \  if (!output.contains(\"input the action\")) {\n            return CheckResult.wrong(\"\
     Your program should prompt the user for an action with the message \\\"Input the\
@@ -50,10 +50,10 @@ files:
     \ CheckResult.wrong(\"Your program should terminate if the user enters \\\"exit\\\
     \"\");\n        }\n        \n        return CheckResult.correct();\n    }\n  \
     \  \n    //Test to check the \"add\" action\n    @DynamicTestingMethod\n    CheckResult\
-    \ test2() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n \
-    \       main.start();\n        \n        String output;\n        String lastLine;\n\
-    \        String[] lines;\n        \n        output = main.execute(\"add\").toLowerCase();\n\
-    \        if (!output.contains(\"card\")) {\n            return CheckResult.wrong(\"\
+    \ test2() {\n        TestedProgram main = new TestedProgram();\n        main.start();\n\
+    \        \n        String output;\n        String lastLine;\n        String[]\
+    \ lines;\n        \n        output = main.execute(\"add\").toLowerCase();\n  \
+    \      if (!output.contains(\"card\")) {\n            return CheckResult.wrong(\"\
     Your program should output the message \\\"The card:\\\" when the 'add' action\
     \ is \" +\n                    \"selected\");\n        }\n        \n        output\
     \ = main.execute(\"France\").toLowerCase();\n        if (!output.contains(\"definition\
@@ -90,7 +90,7 @@ files:
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    //Test to check the \"remove\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test3() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test3() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start();\n        \n        String output;\n        String lastLine;\n\
     \        String[] lines;\n        \n        //No need to check user's output because\
     \ they have been checked in test 2.\n        main.execute(\"add\");\n        main.execute(\"\
@@ -133,12 +133,12 @@ files:
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
     \ \"export\" action\n    @DynamicTestingMethod\n    CheckResult test4() {\n  \
-    \      TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        boolean fileExists;\n        boolean empty;\n        \n    \
-    \    main.execute(\"add\");\n        main.execute(\"Japan\");\n        main.execute(\"\
-    Tokyo\");\n        \n        main.execute(\"add\");\n        main.execute(\"France\"\
-    );\n        main.execute(\"Paris\");\n        \n        output = main.execute(\"\
+    \      TestedProgram main = new TestedProgram();\n        main.start();\n    \
+    \    \n        String output;\n        String lastLine;\n        String[] lines;\n\
+    \        boolean fileExists;\n        boolean empty;\n        \n        main.execute(\"\
+    add\");\n        main.execute(\"Japan\");\n        main.execute(\"Tokyo\");\n\
+    \        \n        main.execute(\"add\");\n        main.execute(\"France\");\n\
+    \        main.execute(\"Paris\");\n        \n        output = main.execute(\"\
     export\").toLowerCase();\n        if (!output.contains(\"file name\")) {\n   \
     \         return CheckResult.wrong(\"Your program should prompt the user for the\
     \ name of the file with the message \" +\n                    \"\\\"File name:\\\
@@ -164,7 +164,7 @@ files:
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    //saves file for the next test\n    @DynamicTestingMethod\n\
-    \    CheckResult test5() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test5() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start();\n        \n        String output;\n        boolean fileExists;\n\
     \        boolean empty;\n        \n        for (int i = 0; i < listOfCountries.size();\
     \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfCountries.get(i));\n\
@@ -187,7 +187,7 @@ files:
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    //Test to check \"import\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test6() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test6() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start();\n        \n        String output;\n        String lastLine;\n\
     \        String[] lines;\n        boolean fileExists;\n        boolean empty;\n\
     \        \n        output = main.execute(\"import\").toLowerCase();\n        if\
@@ -240,56 +240,56 @@ files:
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
     \ \"ask\" action\n    @DynamicTestingMethod\n    CheckResult test7() {\n     \
-    \   TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
-    \        \n        String output;\n        String lastLine;\n        String[]\
-    \ lines;\n        \n        main.execute(\"add\");\n        main.execute(\"France\"\
-    );\n        main.execute(\"Eiffel Tower\");\n        \n        main.execute(\"\
-    import\");\n        output = main.execute(capitalsFile).toLowerCase();\n     \
-    \   if (!output.contains(\"1 card\")) {\n            return CheckResult.wrong(\"\
-    Wrong number of cards were imported. Expected 1\");\n        }\n        \n   \
-    \     if (!output.contains(\"been loaded\")) {\n            return CheckResult.wrong(\"\
-    Your program should notify the user if the cards were imported with the message\"\
-    \ +\n                    \" \\\"n cards have been loaded.\\\" where \\\"n\\\"\
-    \ is the number of cards in the file\");\n        }\n        \n        output\
-    \ = main.execute(\"ask\").toLowerCase();\n        if (!output.contains(\"times\"\
-    )) {\n            return CheckResult.wrong(\"Your program should prompt the user\
-    \ for the number of cards they want to be \" +\n                    \"asked about\
-    \ with the message \\\"How many times to ask?\\\"\");\n        }\n        \n \
-    \       \n        output = main.execute(\"1\").toLowerCase();\n        if (!output.contains(\"\
-    \\\"france\\\"\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ print the definition requested for in quotes\");\n        }\n        \n    \
-    \    if (!output.contains(\"definition\")) {\n            return CheckResult.wrong(\"\
-    Your program should prompt the user for the definition of a card with the \" +\n\
-    \                    \"message \\\" Print the definition of \\\"term\\\": where\
-    \ \\\"term\\\" is the term of the flashcard to be \" +\n                    \"\
-    checked\");\n        }\n        \n        output = main.execute(\"Eiffel Tower\"\
-    ).toLowerCase();\n        if (output.equals(\"correct!\")) {\n            return\
-    \ CheckResult.wrong(\"If the program's memory already has a card that is also\
-    \ contained in the file \" +\n                    \"imported, then the definition\
-    \ of the card from the file should overwrite the one in the \" +\n           \
-    \         \"program's memory\");\n        }\n        \n        if (!output.contains(\"\
-    wrong. the right answer is \\\"paris\\\"\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Wrong\\\" followed by the correct definition in\
-    \ quotes\" +\n                    \" if the user inputs the wrong definition\"\
-    );\n        }\n        \n        lines = output.split(\"\\n\");\n        lastLine\
-    \ = lines[lines.length - 1];\n        if (!lastLine.contains(\"input the action\"\
-    )) {\n            return CheckResult.wrong(\"Your program should request an action\
-    \ from the user if there are no more cards \" +\n                    \"to ask\"\
-    );\n        }\n        \n        main.execute(\"ask\");\n        main.execute(\"\
-    1\");\n        output = main.execute(\"Paris\").toLowerCase();\n        lines\
-    \ = output.split(\"\\n\");\n        \n        if (!lines[0].equals(\"correct!\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print \\\"Correct!\\\
-    \" if the user inputs the correct \" +\n                    \"definition\");\n\
-    \        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n   \
-    \     if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
+    \   TestedProgram main = new TestedProgram();\n        main.start();\n       \
+    \ \n        String output;\n        String lastLine;\n        String[] lines;\n\
+    \        \n        main.execute(\"add\");\n        main.execute(\"France\");\n\
+    \        main.execute(\"Eiffel Tower\");\n        \n        main.execute(\"import\"\
+    );\n        output = main.execute(capitalsFile).toLowerCase();\n        if (!output.contains(\"\
+    1 card\")) {\n            return CheckResult.wrong(\"Wrong number of cards were\
+    \ imported. Expected 1\");\n        }\n        \n        if (!output.contains(\"\
+    been loaded\")) {\n            return CheckResult.wrong(\"Your program should\
+    \ notify the user if the cards were imported with the message\" +\n          \
+    \          \" \\\"n cards have been loaded.\\\" where \\\"n\\\" is the number\
+    \ of cards in the file\");\n        }\n        \n        output = main.execute(\"\
+    ask\").toLowerCase();\n        if (!output.contains(\"times\")) {\n          \
+    \  return CheckResult.wrong(\"Your program should prompt the user for the number\
+    \ of cards they want to be \" +\n                    \"asked about with the message\
+    \ \\\"How many times to ask?\\\"\");\n        }\n        \n        \n        output\
+    \ = main.execute(\"1\").toLowerCase();\n        if (!output.contains(\"\\\"france\\\
+    \"\")) {\n            return CheckResult.wrong(\"Your program should print the\
+    \ definition requested for in quotes\");\n        }\n        \n        if (!output.contains(\"\
+    definition\")) {\n            return CheckResult.wrong(\"Your program should prompt\
+    \ the user for the definition of a card with the \" +\n                    \"\
+    message \\\" Print the definition of \\\"term\\\": where \\\"term\\\" is the term\
+    \ of the flashcard to be \" +\n                    \"checked\");\n        }\n\
+    \        \n        output = main.execute(\"Eiffel Tower\").toLowerCase();\n  \
+    \      if (output.equals(\"correct!\")) {\n            return CheckResult.wrong(\"\
+    If the program's memory already has a card that is also contained in the file\
+    \ \" +\n                    \"imported, then the definition of the card from the\
+    \ file should overwrite the one in the \" +\n                    \"program's memory\"\
+    );\n        }\n        \n        if (!output.contains(\"wrong. the right answer\
+    \ is \\\"paris\\\"\")) {\n            return CheckResult.wrong(\"Your program\
+    \ should print \\\"Wrong\\\" followed by the correct definition in quotes\" +\n\
+    \                    \" if the user inputs the wrong definition\");\n        }\n\
+    \        \n        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
+    \ - 1];\n        if (!lastLine.contains(\"input the action\")) {\n           \
+    \ return CheckResult.wrong(\"Your program should request an action from the user\
+    \ if there are no more cards \" +\n                    \"to ask\");\n        }\n\
+    \        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n    \
+    \    output = main.execute(\"Paris\").toLowerCase();\n        lines = output.split(\"\
+    \\n\");\n        \n        if (!lines[0].equals(\"correct!\")) {\n           \
+    \ return CheckResult.wrong(\"Your program should print \\\"Correct!\\\" if the\
+    \ user inputs the correct \" +\n                    \"definition\");\n       \
+    \ }\n    \n        output = main.execute(\"exit\").toLowerCase();\n        if\
+    \ (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"Your program\
+    \ should print \\\"Bye bye!\\\" and terminate if the user enters \" +\n      \
+    \              \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    @DynamicTestingMethod\n    CheckResult test8() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int index;\n        String output;\n        String term;\n        String\
-    \ lastLine;\n        String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
+    \ main = new TestedProgram();\n        main.start();\n        \n        int index;\n\
+    \        String output;\n        String term;\n        String lastLine;\n    \
+    \    String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
     \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfTerms.get(i));\n\
     \            main.execute(listOfDefinitions.get(i));\n        }\n        \n  \
     \      main.execute(\"ask\");\n        output = main.execute(\"6\").toLowerCase();\n\
@@ -315,9 +315,9 @@ files:
     \   return CheckResult.wrong(\"Your program should terminate if the user enters\
     \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    @DynamicTestingMethod\n    CheckResult test9() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int index;\n        String output;\n        String term;\n        String\
-    \ lastLine;\n        String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
+    \ main = new TestedProgram();\n        main.start();\n        \n        int index;\n\
+    \        String output;\n        String term;\n        String lastLine;\n    \
+    \    String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
     \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfTerms.get(i));\n\
     \            main.execute(listOfDefinitions.get(i));\n        }\n        \n  \
     \      main.execute(\"ask\");\n        output = main.execute(\"6\").toLowerCase();\n\
@@ -344,18 +344,18 @@ files:
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    @DynamicTestingMethod\n    CheckResult test10() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       int wrongIndex;\n        int index;\n        String output;\n        String\
-    \ term;\n        String lastLine;\n        String[] lines;\n        \n       \
-    \ for (int i = 0; i < listOfTerms.size(); i++) {\n            main.execute(\"\
-    add\");\n            main.execute(listOfTerms.get(i));\n            main.execute(listOfDefinitions.get(i));\n\
-    \        }\n        \n        main.execute(\"ask\");\n        output = main.execute(\"\
-    6\").toLowerCase();\n        term = getTerm(output);\n        \n        for (int\
-    \ i = 0; i < listOfTerms.size(); i++) {\n            index = listOfTerms.indexOf(term);\n\
-    \n            if (index == -1) {\n                return CheckResult.wrong(\"\
-    The card \\\"\" + term + \"\\\" wasn't added, but you ask to enter its definition!\"\
-    );\n            }\n\n            wrongIndex = index == listOfDefinitions.size()\
-    \ - 1 ? index - 1 : index + 1;\n\n            output = main.execute(listOfDefinitions.get(wrongIndex)).toLowerCase();\n\
+    \ main = new TestedProgram();\n        main.start();\n        \n        int wrongIndex;\n\
+    \        int index;\n        String output;\n        String term;\n        String\
+    \ lastLine;\n        String[] lines;\n        \n        for (int i = 0; i < listOfTerms.size();\
+    \ i++) {\n            main.execute(\"add\");\n            main.execute(listOfTerms.get(i));\n\
+    \            main.execute(listOfDefinitions.get(i));\n        }\n        \n  \
+    \      main.execute(\"ask\");\n        output = main.execute(\"6\").toLowerCase();\n\
+    \        term = getTerm(output);\n        \n        for (int i = 0; i < listOfTerms.size();\
+    \ i++) {\n            index = listOfTerms.indexOf(term);\n\n            if (index\
+    \ == -1) {\n                return CheckResult.wrong(\"The card \\\"\" + term\
+    \ + \"\\\" wasn't added, but you ask to enter its definition!\");\n          \
+    \  }\n\n            wrongIndex = index == listOfDefinitions.size() - 1 ? index\
+    \ - 1 : index + 1;\n\n            output = main.execute(listOfDefinitions.get(wrongIndex)).toLowerCase();\n\
     \            lines = output.split(\"\\n\");\n            lastLine = lines[lines.length\
     \ - 1];\n            \n            if (!lines[0].contains(\"wrong. the right answer\
     \ is \\\"\" + listOfDefinitions.get(index) + \"\\\"\")) {\n                return\
@@ -378,7 +378,7 @@ files:
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
     \ the \"hardest card\" action\n    @DynamicTestingMethod\n    CheckResult test11()\
-    \ {\n        TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
+    \ {\n        TestedProgram main = new TestedProgram();\n        main.start();\n\
     \        \n        String output;\n        String lastLine;\n        String[]\
     \ lines;\n        \n        output = main.execute(\"hardest card\").toLowerCase();\n\
     \        lines = output.split(\"\\n\");\n        lastLine = lines[lines.length\
@@ -413,86 +413,85 @@ files:
     \   return CheckResult.wrong(\"Your program should terminate if the user enters\
     \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    @DynamicTestingMethod\n    CheckResult test12() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       String output;\n        \n        main.execute(\"add\");\n        main.execute(\"\
-    Russia\");\n        main.execute(\"Moscow\");\n        \n        main.execute(\"\
-    ask\");\n        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\"\
-    );\n        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n \
-    \       main.execute(\"Saint Petersburg\");\n        \n        main.execute(\"\
-    ask\");\n        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\"\
-    );\n        \n        output = main.execute(\"hardest card\").toLowerCase();\n\
-    \        if (!output.contains(\"the hardest card is\")) {\n            return\
+    \ main = new TestedProgram();\n        main.start();\n        \n        String\
+    \ output;\n        \n        main.execute(\"add\");\n        main.execute(\"Russia\"\
+    );\n        main.execute(\"Moscow\");\n        \n        main.execute(\"ask\"\
+    );\n        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\");\n\
+    \        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n    \
+    \    main.execute(\"Saint Petersburg\");\n        \n        main.execute(\"ask\"\
+    );\n        main.execute(\"1\");\n        main.execute(\"Saint Petersburg\");\n\
+    \        \n        output = main.execute(\"hardest card\").toLowerCase();\n  \
+    \      if (!output.contains(\"the hardest card is\")) {\n            return CheckResult.wrong(\"\
+    Your program should show the user the hardest card(s) in the format\" +\n    \
+    \                \" \\\"The hardest card is \\\"card\\\". You have n errors answering\
+    \ it.\\\"\");\n        }\n        \n        if (!output.contains(\"errors answering\
+    \ it\")) {\n            return CheckResult.wrong(\"Your program should show the\
+    \ user the hardest card(s) in the format\" +\n                    \" \\\"The hardest\
+    \ card is \\\"card\\\". You have n errors answering it.\\\"\");\n        }\n \
+    \       \n        if (!output.contains(\"\\\"russia\\\"\")) {\n            return\
+    \ CheckResult.wrong(\"Your program should print the hardest card in quotes\");\n\
+    \        }\n        \n        if (!output.contains(\"3\")) {\n            return\
+    \ CheckResult.wrong(\"Your program shows wrong number of errors. Expected 3\"\
+    );\n        }\n        \n        main.execute(\"export\");\n        main.execute(capitalsNewFile);\n\
+    \    \n        output = main.execute(\"exit\").toLowerCase();\n        if (!output.contains(\"\
+    bye\")) {\n            return CheckResult.wrong(\"Your program should print \\\
+    \"Bye bye!\\\" and terminate if the user enters \" +\n                    \"\\\
+    \"exit\\\"\");\n        }\n    \n        if (!main.isFinished()) {\n         \
+    \   return CheckResult.wrong(\"Your program should terminate if the user enters\
+    \ \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
+    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test13() {\n        TestedProgram\
+    \ main = new TestedProgram();\n        main.start();\n        \n        String\
+    \ output;\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
+    \        \n        main.execute(\"import\");\n        main.execute(capitalsNewFile);\n\
+    \        \n        output = main.execute(\"hardest card\").toLowerCase();\n  \
+    \      if (output.contains(\"no cards with errors\")) {\n            return CheckResult.wrong(\"\
+    Your program should print the hardest card(s) if such card(s) exists\");\n   \
+    \     }\n        \n        if (!output.contains(\"the hardest card is\")) {\n\
+    \            return CheckResult.wrong(\"Your program should show the user the\
+    \ hardest card(s) in the format\" +\n                    \" \\\"The hardest card\
+    \ is \\\"card\\\". You have n errors answering it.\\\"\");\n        }\n      \
+    \  \n        if (!output.contains(\"errors answering it\")) {\n            return\
     \ CheckResult.wrong(\"Your program should show the user the hardest card(s) in\
     \ the format\" +\n                    \" \\\"The hardest card is \\\"card\\\"\
-    . You have n errors answering it.\\\"\");\n        }\n        \n        if (!output.contains(\"\
-    errors answering it\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should show the user the hardest card(s) in the format\" +\n               \
-    \     \" \\\"The hardest card is \\\"card\\\". You have n errors answering it.\\\
-    \"\");\n        }\n        \n        if (!output.contains(\"\\\"russia\\\"\"))\
-    \ {\n            return CheckResult.wrong(\"Your program should print the hardest\
-    \ card in quotes\");\n        }\n        \n        if (!output.contains(\"3\"\
-    )) {\n            return CheckResult.wrong(\"Your program shows wrong number of\
-    \ errors. Expected 3\");\n        }\n        \n        main.execute(\"export\"\
-    );\n        main.execute(capitalsNewFile);\n    \n        output = main.execute(\"\
+    . You have n errors answering it.\\\"\");\n        }\n        \n        if (output.contains(\"\
+    france\")) {\n            return CheckResult.wrong(\"Your program printed the\
+    \ wrong card\");\n        }\n        \n        if (!output.contains(\"\\\"russia\\\
+    \"\")) {\n            return CheckResult.wrong(\"Your program should print the\
+    \ hardest card in quotes\");\n        }\n        \n        if (!output.contains(\"\
+    3\")) {\n            return CheckResult.wrong(\"Your program shows wrong number\
+    \ of errors. Expected 3\");\n        }\n    \n        output = main.execute(\"\
     exit\").toLowerCase();\n        if (!output.contains(\"bye\")) {\n           \
     \ return CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
     \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
     \    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    @DynamicTestingMethod\n\
-    \    CheckResult test13() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test14() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start();\n        \n        String output;\n        \n        main.execute(\"\
     import\");\n        main.execute(capitalsFile);\n        \n        main.execute(\"\
-    import\");\n        main.execute(capitalsNewFile);\n        \n        output =\
-    \ main.execute(\"hardest card\").toLowerCase();\n        if (output.contains(\"\
-    no cards with errors\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should print the hardest card(s) if such card(s) exists\");\n        }\n   \
-    \     \n        if (!output.contains(\"the hardest card is\")) {\n           \
-    \ return CheckResult.wrong(\"Your program should show the user the hardest card(s)\
-    \ in the format\" +\n                    \" \\\"The hardest card is \\\"card\\\
-    \". You have n errors answering it.\\\"\");\n        }\n        \n        if (!output.contains(\"\
-    errors answering it\")) {\n            return CheckResult.wrong(\"Your program\
-    \ should show the user the hardest card(s) in the format\" +\n               \
-    \     \" \\\"The hardest card is \\\"card\\\". You have n errors answering it.\\\
-    \"\");\n        }\n        \n        if (output.contains(\"france\")) {\n    \
-    \        return CheckResult.wrong(\"Your program printed the wrong card\");\n\
-    \        }\n        \n        if (!output.contains(\"\\\"russia\\\"\")) {\n  \
-    \          return CheckResult.wrong(\"Your program should print the hardest card\
-    \ in quotes\");\n        }\n        \n        if (!output.contains(\"3\")) {\n\
-    \            return CheckResult.wrong(\"Your program shows wrong number of errors.\
-    \ Expected 3\");\n        }\n    \n        output = main.execute(\"exit\").toLowerCase();\n\
-    \        if (!output.contains(\"bye\")) {\n            return CheckResult.wrong(\"\
-    Your program should print \\\"Bye bye!\\\" and terminate if the user enters \"\
-    \ +\n                    \"\\\"exit\\\"\");\n        }\n    \n        if (!main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
-    \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
-    \    }\n    \n    @DynamicTestingMethod\n    CheckResult test14() {\n        TestedProgram\
-    \ main = new TestedProgram(MainKt.class);\n        main.start();\n        \n \
-    \       String output;\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
-    \        \n        main.execute(\"ask\");\n        main.execute(\"1\");\n    \
-    \    main.execute(\"Lyon\");\n        \n        main.execute(\"import\");\n  \
-    \      main.execute(capitalsNewFile);\n        \n        output = main.execute(\"\
-    hardest card\").toLowerCase();\n        if (output.contains(\"no cards with errors\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print the hardest\
-    \ card(s) if such card(s) exists\");\n        }\n        \n        if (!output.contains(\"\
-    hardest cards are\")) {\n            return CheckResult.wrong(\"Your program should\
-    \ show the user the hardest card(s) in the format\" +\n                    \"\
-    \ \\\"The hardest cards are \\\"card#1\\\", \\\"card#2\\\"...\\\"card#n\\\". You\
-    \ have n errors answering them\" +\n                    \".\\\"\");\n        }\n\
-    \        \n        if (!output.contains(\"errors answering them\")) {\n      \
-    \      return CheckResult.wrong(\"Your program should show the user the hardest\
-    \ card(s) in the format \\\"The \" +\n                    \"hardest cards are\
+    ask\");\n        main.execute(\"1\");\n        main.execute(\"Lyon\");\n     \
+    \   \n        main.execute(\"import\");\n        main.execute(capitalsNewFile);\n\
+    \        \n        output = main.execute(\"hardest card\").toLowerCase();\n  \
+    \      if (output.contains(\"no cards with errors\")) {\n            return CheckResult.wrong(\"\
+    Your program should print the hardest card(s) if such card(s) exists\");\n   \
+    \     }\n        \n        if (!output.contains(\"hardest cards are\")) {\n  \
+    \          return CheckResult.wrong(\"Your program should show the user the hardest\
+    \ card(s) in the format\" +\n                    \" \\\"The hardest cards are\
     \ \\\"card#1\\\", \\\"card#2\\\"...\\\"card#n\\\". You have n errors answering\
-    \ them\\\".\");\n        }\n        \n        if (!output.contains(\"france\"\
-    )) {\n            return CheckResult.wrong(\"Your program should print all the\
-    \ cards with the highest number of errors\");\n        }\n        \n        if\
-    \ (!output.contains(\"russia\")) {\n            return CheckResult.wrong(\"Your\
+    \ them\" +\n                    \".\\\"\");\n        }\n        \n        if (!output.contains(\"\
+    errors answering them\")) {\n            return CheckResult.wrong(\"Your program\
+    \ should show the user the hardest card(s) in the format \\\"The \" +\n      \
+    \              \"hardest cards are \\\"card#1\\\", \\\"card#2\\\"...\\\"card#n\\\
+    \". You have n errors answering them\\\".\");\n        }\n        \n        if\
+    \ (!output.contains(\"france\")) {\n            return CheckResult.wrong(\"Your\
     \ program should print all the cards with the highest number of errors\");\n \
-    \       }\n        \n        if (!output.contains(\"\\\"france\\\"\")) {\n   \
-    \         return CheckResult.wrong(\"Your program should print the hardest card(s)\
-    \ in quotes\");\n        }\n        \n        if (!output.contains(\"\\\"russia\\\
-    \"\")) {\n            return CheckResult.wrong(\"Your program should print the\
-    \ hardest card(s) in quotes\");\n        }\n    \n        output = main.execute(\"\
+    \       }\n        \n        if (!output.contains(\"russia\")) {\n           \
+    \ return CheckResult.wrong(\"Your program should print all the cards with the\
+    \ highest number of errors\");\n        }\n        \n        if (!output.contains(\"\
+    \\\"france\\\"\")) {\n            return CheckResult.wrong(\"Your program should\
+    \ print the hardest card(s) in quotes\");\n        }\n        \n        if (!output.contains(\"\
+    \\\"russia\\\"\")) {\n            return CheckResult.wrong(\"Your program should\
+    \ print the hardest card(s) in quotes\");\n        }\n    \n        output = main.execute(\"\
     exit\").toLowerCase();\n        if (!output.contains(\"bye\")) {\n           \
     \ return CheckResult.wrong(\"Your program should print \\\"Bye bye!\\\" and terminate\
     \ if the user enters \" +\n                    \"\\\"exit\\\"\");\n        }\n\
@@ -500,7 +499,7 @@ files:
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
     \ the \"reset stats\" action\n    @DynamicTestingMethod\n    CheckResult test15()\
-    \ {\n        TestedProgram main = new TestedProgram(MainKt.class);\n        main.start();\n\
+    \ {\n        TestedProgram main = new TestedProgram();\n        main.start();\n\
     \        \n        String output;\n        \n        main.execute(\"hardest card\"\
     );\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
     \        \n        main.execute(\"hardest card\");\n        \n        main.execute(\"\
@@ -521,7 +520,7 @@ files:
     \ {\n            return CheckResult.wrong(\"Your program should terminate if the\
     \ user enters \\\"exit\\\"\");\n        }\n        \n        return CheckResult.correct();\n\
     \    }\n    \n    //Test to check the \"log\" action\n    @DynamicTestingMethod\n\
-    \    CheckResult test16() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test16() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start();\n        \n        String output;\n        \n        main.execute(\"\
     hardest card\");\n        \n        main.execute(\"import\");\n        main.execute(capitalsFile);\n\
     \        \n        main.execute(\"hardest card\");\n        \n        main.execute(\"\
@@ -556,7 +555,7 @@ files:
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    //Test to check\
     \ command line arguments\"\n    @DynamicTestingMethod\n    CheckResult test17()\
-    \ {\n        TestedProgram main = new TestedProgram(MainKt.class);\n        main.start(\"\
+    \ {\n        TestedProgram main = new TestedProgram();\n        main.start(\"\
     -export\", \"fridayThe13th.txt\");\n        \n        String output;\n       \
     \ String[] lines;\n        \n        output = main.execute(\"hardest card\").toLowerCase();\n\
     \        lines = output.split(\"\\n\");\n        if (lines[0].contains(\"hardest\
@@ -575,7 +574,7 @@ files:
     );\n        }\n    \n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
     Your program should terminate if the user enters \\\"exit\\\"\");\n        }\n\
     \        \n        return CheckResult.correct();\n    }\n    \n    @DynamicTestingMethod\n\
-    \    CheckResult test18() {\n        TestedProgram main = new TestedProgram(MainKt.class);\n\
+    \    CheckResult test18() {\n        TestedProgram main = new TestedProgram();\n\
     \        main.start(\"-export\", \"newFridayThe13th.txt\", \"-import\", \"fridayThe13th.txt\"\
     );\n    \n        String output;\n        \n        main.execute(\"add\");\n \
     \       output = main.execute(\"Movie\").toLowerCase();\n        if (output.contains(\"\
