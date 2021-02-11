@@ -8,7 +8,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_INTERNAL" />
+        <option name="gradleJvm" value="java version &quot;11.0.8+10&quot;" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -24,10 +24,12 @@
             <option value="$PROJECT_DIR$/Problems/Empty" />
             <option value="$PROJECT_DIR$/Problems/Even numbers" />
             <option value="$PROJECT_DIR$/Problems/Exception message" />
+            <option value="$PROJECT_DIR$/Problems/Fabric manufacture" />
             <option value="$PROJECT_DIR$/Problems/First predicate" />
             <option value="$PROJECT_DIR$/Problems/Fix compile-time errors" />
             <option value="$PROJECT_DIR$/Problems/Fix the program" />
             <option value="$PROJECT_DIR$/Problems/Fractional part" />
+            <option value="$PROJECT_DIR$/Problems/Frozen desserts" />
             <option value="$PROJECT_DIR$/Problems/Function composition" />
             <option value="$PROJECT_DIR$/Problems/Function composition (1)" />
             <option value="$PROJECT_DIR$/Problems/Greeting" />
