@@ -50,3 +50,5 @@ content:
 - Change program arguments
 - Printing arguments
 - Line length
+- Safe round
+- Elvis throwing exceptions
