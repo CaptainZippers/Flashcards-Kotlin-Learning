@@ -8,7 +8,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="java version &quot;11.0.8+10&quot;" />
+        <option name="gradleJvm" value="#JAVA_INTERNAL" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -62,6 +62,8 @@
             <option value="$PROJECT_DIR$/Problems/Rickrolling" />
             <option value="$PROJECT_DIR$/Problems/Safe round" />
             <option value="$PROJECT_DIR$/Problems/Sine and cosine" />
+            <option value="$PROJECT_DIR$/Problems/String length" />
+            <option value="$PROJECT_DIR$/Problems/String or Int" />
             <option value="$PROJECT_DIR$/Problems/Sum of numbers" />
             <option value="$PROJECT_DIR$/Problems/Summation" />
             <option value="$PROJECT_DIR$/Problems/What's wrong" />

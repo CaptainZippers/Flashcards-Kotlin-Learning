@@ -52,3 +52,5 @@ content:
 - Line length
 - Safe round
 - Elvis throwing exceptions
+- String length
+- String or Int
