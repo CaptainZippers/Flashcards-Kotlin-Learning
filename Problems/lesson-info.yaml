@@ -57,3 +57,6 @@ content:
 - Number of cups
 - User Information
 - Latte
+- copy() usage
+- toString() modification
+- equals() check

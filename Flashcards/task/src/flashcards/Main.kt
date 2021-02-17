@@ -42,10 +42,10 @@ class Flashcards {
             printNLog("The card has been removed.")
         } else { printNLog("Can't remove \"$term\": there is no such card.") }
     }
-    fun import() {
-        printNLog("File name:")
-        val filename = readLine()!!
-        logs.add("$filename\n")
+    fun import(_filename: String?) {
+        if (_filename === null) printNLog("File name:")
+        val filename = _filename ?: readLine()!!
+        if (_filename === null) logs.add("$filename\n")
         val importFile = File(filename)
         if (!importFile.exists()) printNLog("File not found.")
         else {
@@ -58,12 +58,11 @@ class Flashcards {
             }
             printNLog("$cardsAdded cards have been loaded.")
         }
-
     }
-    fun export() {
-        printNLog("File name:")
-        val filename = readLine()!!
-        logs.add("$filename\n")
+    fun export(_filename: String?) {
+        if (_filename === null) printNLog("File name:")
+        val filename = _filename ?: readLine()!!
+        if (_filename === null) logs.add("$filename\n")
         File(filename).writeText(cards.entries.joinToString(separator = "") { "${it.key}:${it.value}:${if (errors.containsKey(it.key)) errors[it.key] else 0}\n" } )
         printNLog("${cards.size} cards have been saved.")
     }
@@ -116,28 +115,34 @@ class Flashcards {
         errors.clear()
         printNLog("Card statistics have been reset.")
     }
-    fun exit() {
+    fun exit(_filename: String?) {
+        if (_filename !== null) this.export(_filename)
         printNLog("Bye bye!")
         done = true
     }
 }
 
-fun main() {
+fun main(args: Array<String>) {
     val deck = Flashcards()
+    val exportFilenameIndex = args.indexOf("-export")
+    var exportFilename: String? = null
+    if (exportFilenameIndex != -1 ) exportFilename = args[ exportFilenameIndex + 1 ]
+    val importFilenameIndex = args.indexOf("-import")
+    if (importFilenameIndex != -1 ) deck.import(args[ importFilenameIndex + 1 ])
     do {
         deck.printNLog("input the action (add, remove, import, export, ask, exit):")
         val command = readLine()!!
-        deck.logs.add("$command\n")
+        val add = deck.logs.add("$command\n")
         when(command) {
             "add" -> deck.add()
             "remove" -> deck.remove()
-            "import" -> deck.import()
-            "export" -> deck.export()
+            "import" -> deck.import(null)
+            "export" -> deck.export(null)
             "ask" -> deck.ask()
             "log" -> deck.log()
             "hardest card" -> deck.hardestCard()
             "reset stats" -> deck.resetStats()
-            "exit" -> deck.exit()
+            "exit" -> deck.exit(exportFilename)
         }
     } while (!deck.done)
 }
